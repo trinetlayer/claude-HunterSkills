@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" width="1000" height="470" role="img" aria-label="Attack surface map: the orchestrator routes each request to the matching skill">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 470" width="1000" height="470" role="img" aria-label="Attack surface map: the orchestrator routes each request to the matching skill across twelve surfaces">
   <defs>
     <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0d1526"/><stop offset="1" stop-color="#0b1220"/>
@@ -19,73 +19,47 @@
   <rect width="1000" height="470" rx="16" fill="url(#grid)"/>
   <rect x="0.5" y="0.5" width="999" height="469" rx="16" fill="none" stroke="#22D3EE" stroke-opacity="0.14"/>
 
-  <text x="40" y="52" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="13" letter-spacing="3" fill="#67E8F9">ROUTING</text>
-  <text x="40" y="82" font-family="Inter,system-ui,sans-serif" font-size="26" font-weight="700" fill="#F5F7FA">One request → the right surface</text>
+  <text x="40" y="50" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="13" letter-spacing="3" fill="#67E8F9">ROUTING · 12 SKILLS</text>
+  <text x="40" y="80" font-family="Inter,system-ui,sans-serif" font-size="26" font-weight="700" fill="#F5F7FA">One request → the right surface</text>
 
-  <!-- connectors (drawn first, behind nodes) -->
-  <g stroke="url(#hub)" stroke-width="2" opacity="0.6" fill="none" stroke-dasharray="7 7">
+  <!-- connectors (behind nodes), animated flow -->
+  <g stroke="url(#hub)" stroke-width="2" opacity="0.55" fill="none" stroke-dasharray="7 7">
     <animate attributeName="stroke-dashoffset" values="0;-28" dur="1.3s" repeatCount="indefinite"/>
-    <path d="M500 260 C 360 260, 340 200, 300 200"/>
-    <path d="M420 275 C 320 275, 300 275, 258 275"/>
-    <path d="M500 290 C 360 300, 345 350, 300 350"/>
-    <path d="M500 260 C 640 260, 660 200, 700 200"/>
-    <path d="M580 275 C 680 275, 700 275, 742 275"/>
-    <path d="M500 290 C 640 300, 655 350, 700 350"/>
+    <path d="M405 250 C 340 250, 320 150, 250 150"/>
+    <path d="M405 258 C 345 258, 320 220, 250 220"/>
+    <path d="M405 274 C 345 274, 320 290, 250 290"/>
+    <path d="M405 282 C 340 305, 330 360, 250 360"/>
+    <path d="M595 250 C 660 250, 680 150, 750 150"/>
+    <path d="M595 258 C 655 258, 680 220, 750 220"/>
+    <path d="M595 274 C 655 274, 680 290, 750 290"/>
+    <path d="M595 282 C 660 305, 670 360, 750 360"/>
   </g>
 
-  <!-- domain skill nodes -->
+  <!-- surface nodes -->
   <g font-family="'JetBrains Mono',ui-monospace,monospace">
-    <!-- left -->
-    <g>
-      <rect x="150" y="173" width="150" height="54" rx="12" fill="#131c30" stroke="#6366F1" stroke-opacity="0.6"/>
-      <circle cx="172" cy="200" r="5" fill="#818CF8"/>
-      <text x="188" y="196" font-size="14" fill="#E7ECF5">web-app</text>
-      <text x="188" y="214" font-size="11" fill="#8B96A9">xss · ssrf · idor</text>
-    </g>
-    <g>
-      <rect x="108" y="248" width="150" height="54" rx="12" fill="#131c30" stroke="#6366F1" stroke-opacity="0.6"/>
-      <circle cx="130" cy="275" r="5" fill="#818CF8"/>
-      <text x="146" y="271" font-size="14" fill="#E7ECF5">api</text>
-      <text x="146" y="289" font-size="11" fill="#8B96A9">BOLA · JWT · gql</text>
-    </g>
-    <g>
-      <rect x="150" y="323" width="150" height="54" rx="12" fill="#131c30" stroke="#6366F1" stroke-opacity="0.6"/>
-      <circle cx="172" cy="350" r="5" fill="#818CF8"/>
-      <text x="188" y="346" font-size="14" fill="#E7ECF5">source</text>
-      <text x="188" y="364" font-size="11" fill="#8B96A9">SAST · secrets</text>
-    </g>
-    <!-- right -->
-    <g>
-      <rect x="700" y="173" width="150" height="54" rx="12" fill="#131c30" stroke="#22D3EE" stroke-opacity="0.6"/>
-      <circle cx="722" cy="200" r="5" fill="#22D3EE"/>
-      <text x="738" y="196" font-size="14" fill="#E7ECF5">android</text>
-      <text x="738" y="214" font-size="11" fill="#8B96A9">MASVS · ipc</text>
-    </g>
-    <g>
-      <rect x="742" y="248" width="150" height="54" rx="12" fill="#131c30" stroke="#22D3EE" stroke-opacity="0.6"/>
-      <circle cx="764" cy="275" r="5" fill="#22D3EE"/>
-      <text x="780" y="271" font-size="14" fill="#E7ECF5">ios</text>
-      <text x="780" y="289" font-size="11" fill="#8B96A9">keychain · ATS</text>
-    </g>
-    <g>
-      <rect x="700" y="323" width="150" height="54" rx="12" fill="#131c30" stroke="#22D3EE" stroke-opacity="0.6"/>
-      <circle cx="722" cy="350" r="5" fill="#22D3EE"/>
-      <text x="738" y="346" font-size="14" fill="#E7ECF5">web3</text>
-      <text x="738" y="364" font-size="11" fill="#8B96A9">evm·sol·move</text>
-    </g>
+    <!-- left: web2 + mobile -->
+    <g><rect x="100" y="126" width="150" height="48" rx="12" fill="#131c30" stroke="#6366F1" stroke-opacity="0.6"/><circle cx="122" cy="150" r="5" fill="#818CF8"/><text x="138" y="147" font-size="14" fill="#E7ECF5">web</text><text x="138" y="164" font-size="11" fill="#8B96A9">xss · ssrf · idor</text></g>
+    <g><rect x="100" y="196" width="150" height="48" rx="12" fill="#131c30" stroke="#6366F1" stroke-opacity="0.6"/><circle cx="122" cy="220" r="5" fill="#818CF8"/><text x="138" y="217" font-size="14" fill="#E7ECF5">api</text><text x="138" y="234" font-size="11" fill="#8B96A9">BOLA · JWT · gql</text></g>
+    <g><rect x="100" y="266" width="150" height="48" rx="12" fill="#131c30" stroke="#6366F1" stroke-opacity="0.6"/><circle cx="122" cy="290" r="5" fill="#818CF8"/><text x="138" y="287" font-size="14" fill="#E7ECF5">source</text><text x="138" y="304" font-size="11" fill="#8B96A9">SAST · secrets</text></g>
+    <g><rect x="100" y="336" width="150" height="48" rx="12" fill="#131c30" stroke="#22D3EE" stroke-opacity="0.6"/><circle cx="122" cy="360" r="5" fill="#22D3EE"/><text x="138" y="357" font-size="14" fill="#E7ECF5">mobile</text><text x="138" y="374" font-size="11" fill="#8B96A9">android · ios</text></g>
+    <!-- right: web3 + cloud + llm + cred -->
+    <g><rect x="750" y="126" width="150" height="48" rx="12" fill="#131c30" stroke="#C4B5FD" stroke-opacity="0.6"/><circle cx="772" cy="150" r="5" fill="#C4B5FD"/><text x="788" y="147" font-size="14" fill="#E7ECF5">web3</text><text x="788" y="164" font-size="11" fill="#8B96A9">evm · sol · move</text></g>
+    <g><rect x="750" y="196" width="150" height="48" rx="12" fill="#131c30" stroke="#22D3EE" stroke-opacity="0.6"/><circle cx="772" cy="220" r="5" fill="#22D3EE"/><text x="788" y="217" font-size="14" fill="#E7ECF5">cloud</text><text x="788" y="234" font-size="11" fill="#8B96A9">buckets · k8s</text></g>
+    <g><rect x="750" y="266" width="150" height="48" rx="12" fill="#131c30" stroke="#C4B5FD" stroke-opacity="0.6"/><circle cx="772" cy="290" r="5" fill="#C4B5FD"/><text x="788" y="287" font-size="14" fill="#E7ECF5">llm</text><text x="788" y="304" font-size="11" fill="#8B96A9">prompt-inj</text></g>
+    <g><rect x="750" y="336" width="150" height="48" rx="12" fill="#131c30" stroke="#F5B140" stroke-opacity="0.6"/><circle cx="772" cy="360" r="5" fill="#F5B140"/><text x="788" y="357" font-size="14" fill="#E7ECF5">cred</text><text x="788" y="374" font-size="11" fill="#8B96A9">osint · wordlist</text></g>
   </g>
 
   <!-- center hub -->
   <g filter="url(#soft)">
-    <rect x="405" y="233" width="190" height="84" rx="16" fill="#0e1830" stroke="url(#hub)" stroke-width="2">
+    <rect x="405" y="223" width="190" height="84" rx="16" fill="#0e1830" stroke="url(#hub)" stroke-width="2">
       <animate attributeName="stroke-opacity" values="1;0.5;1" dur="2.6s" repeatCount="indefinite"/>
     </rect>
   </g>
-  <text x="500" y="266" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="12" letter-spacing="2" fill="#67E8F9">ORCHESTRATOR</text>
-  <text x="500" y="290" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600" fill="#F5F7FA">confirms scope</text>
-  <text x="500" y="308" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="12" fill="#8B96A9">then routes &amp; validates</text>
+  <text x="500" y="256" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="12" letter-spacing="2" fill="#67E8F9">ORCHESTRATOR</text>
+  <text x="500" y="280" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600" fill="#F5F7FA">confirms scope</text>
+  <text x="500" y="298" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="12" fill="#8B96A9">then routes &amp; validates</text>
 
-  <text x="500" y="212" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="12" fill="#8B96A9">"help me test this in-scope target"</text>
+  <text x="500" y="205" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="12" fill="#8B96A9">"help me test this in-scope target"</text>
 
   <text x="500" y="440" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="12" fill="#5f6b80">Map → Prioritize → Probe → Prove → Report  ·  every finding climbs the Trinet Validation Ladder</text>
 </svg>

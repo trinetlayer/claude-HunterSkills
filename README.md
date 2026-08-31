@@ -255,7 +255,7 @@ Full walkthrough, tips, and the two-account trick for access-control bugs → **
 
 ## Under the hood
 
-One rulebook drives all seven skills — [`skills/shared/RULES.md`](skills/shared/RULES.md):
+One rulebook drives all twelve skills — [`skills/shared/RULES.md`](skills/shared/RULES.md):
 
 - **Authorization gate** — written scope first, or passive/advisory mode only.
 - **Workflow** — *Map → Prioritize → Probe → Prove → Report*, highest-impact classes first.
