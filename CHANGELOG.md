@@ -23,6 +23,12 @@ Turns the pack from pure methodology into a working tool.
   and `/pickup` (a lightweight per-engagement notes file so long/resumed hunts keep context).
 - **Community:** `ADOPTERS.md` (+ "Used by"), `ROADMAP.md` (with `help wanted` items), `AGENTS.md`
   (multi-harness), a false-positive issue template, and a professional Contributing flow in the README.
+- **Learn-enriched depth** — web/API/source skills folded in Beginner→Advanced→Pro techniques from
+  [TrinetLayer Learn](https://learn.trinetlayer.com): new `references/` for CRLF, IDOR, OTP-bypass,
+  API auth-bypass, and dependency-confusion; deeper XSS (mXSS/Unicode/framework-TI) and SQLi
+  (error-based/OOB/WAF-evasion) payload libraries.
+- **New hero image** (`assets/hero.svg`) + a 1280×640 `assets/social-preview.png`; all external
+  TrinetLayer links open in a new tab.
 
 ### Changed
 - `web-app-pentest` / `api-security-testing` / `source-code-review` wire the recon + GhostJS scripts

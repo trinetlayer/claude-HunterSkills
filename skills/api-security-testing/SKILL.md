@@ -77,11 +77,11 @@ Test each. You need **≥ two accounts** (and ideally an unauthenticated session
 
 | # | Risk | How to test | Example |
 | --- | --- | --- | --- |
-| **API1** | **BOLA / IDOR** (object-level authz) | Log in as user A, capture a request with an object ID, replay it as user B (or unauth). Swap numeric IDs, UUIDs, slugs, filenames. | `GET /api/orders/1043` as B returns A's order. |
-| **API2** | **Broken authentication** | Test token expiry/revocation, weak JWT (see §3), credential-stuffing protection, password-reset token entropy, missing auth on some routes. | Expired/`alg:none` JWT still accepted; reset token predictable. |
+| **API1** | **BOLA / IDOR** (object-level authz) | Log in as user A, capture a request with an object ID, replay it as user B (or unauth). Swap numeric IDs, UUIDs, slugs, filenames. Reverse "opaque" refs (base64/hex/unsalted-hash/predictable-UUIDv1) and enumerate; hit **export/report/PDF** and **batch/array** (`ids[]=`, `{"user_ids":[…]}`) routes that skip the UI's per-object check; try the ID in cookies, GraphQL node IDs, and WebSocket subscribe frames. See [references/idor.md](references/idor.md). | `GET /api/orders/1043` as B returns A's order; `GET /api/reports/export?account_id=1044` pulls another tenant. |
+| **API2** | **Broken authentication** | Test token expiry/revocation, weak JWT (see §3), credential-stuffing protection, password-reset token entropy, missing auth on some routes. Attack **OTP/MFA/reset** flows: code not bound to user/session, reuse/no-invalidation, verify-endpoint rate-limit bypass, race on verify, OTP leaked in response, drop/null/type-confuse the code — full catalog in [references/auth-bypass.md](references/auth-bypass.md). | Expired/`alg:none` JWT still accepted; reset token predictable; OTP minted for A verifies B (ATO). |
 | **API3** | **Broken object property level authz** (mass assignment + excessive data exposure) | Add fields the client never sends (`"role":"admin"`, `"isVerified":true`) to create/update bodies. Diff full API response vs. what the UI renders for leaked fields. | `PATCH /users/me` with `"balance":99999`; response includes `password_hash`, internal flags. |
 | **API4** | **Unrestricted resource consumption** | Probe for missing rate limits, unbounded `limit`/`page` params, large uploads, expensive queries. Prove the *gap*, don't actually exhaust. | No lockout after N failed logins; `?limit=1000000` honored. |
-| **API5** | **BFLA** (function-level authz) | As a low-priv user, call admin/privileged endpoints and try alternate verbs. Switch `GET`→`PUT`/`DELETE`; guess admin routes from patterns. | Regular user hits `DELETE /api/admin/users/5` successfully. |
+| **API5** | **BFLA** (function-level authz) | As a low-priv user, call admin/privileged endpoints and try alternate verbs. Switch `GET`→`PUT`/`DELETE`, add `X-HTTP-Method-Override`; guess admin routes from patterns and probe `internal.`/`admin.` subdomains reusing the same IDs. | Regular user hits `DELETE /api/admin/users/5` successfully. |
 | **API6** | **Unrestricted access to sensitive business flows** | Find flows worth automating (signup, checkout, coupon, invites) and test whether anti-automation controls exist. | Script redeems one-per-user coupon 500× via API. |
 | **API7** | **SSRF** | Any param taking a URL/host/file (webhooks, image fetch, import-from-URL, PDF render). Point at `169.254.169.254`, internal hosts, `file://`. Use blind/OOB (Collaborator) when no response echoes. | `POST /fetch {"url":"http://169.254.169.254/latest/meta-data/"}` returns cloud creds. |
 | **API8** | **Security misconfiguration** | Check verbose stack traces, permissive CORS, missing TLS, default creds, unsafe HTTP methods (TRACE), content-type handling, missing security headers *where it enables an exploit*. | CORS reflects `Origin` with `Allow-Credentials: true`. |
@@ -109,9 +109,18 @@ tampering (`sub`, `scope`, `admin`). For copy-pasteable JWT attacks and tooling,
 **OAuth/token issues:** redirect_uri manipulation, `state`/PKCE missing (CSRF), token leakage in
 Referer/logs, scope escalation, implicit-flow token theft, refresh-token reuse.
 
+**OTP / MFA / password-reset bypass:** on the verify endpoint — code not bound to user+session
+(A's code verifies B → ATO), reuse / no-invalidation (after success, logout, or password change),
+verify-endpoint rate-limit bypass (per-IP header rotation, casing/padding, `/v2` + mobile surface),
+race on verify (parallel requests beat the "used" flag), OTP leaked in response body/headers, and
+request-shape tricks (drop the field, `null`/empty, array/object type confusion, skip the step). Also
+brute-forceable backup/recovery codes. Full catalog: [references/auth-bypass.md](references/auth-bypass.md).
+
 **Other classes:**
 - **Rate-limit / enumeration** — username/email enumeration via response or timing diffs; test if limits
-  reset per-IP/header and can be bypassed (`X-Forwarded-For` rotation) — prove the gap, don't flood.
+  reset per-IP/header and can be bypassed (`X-Forwarded-For`/`X-Real-IP` rotation, code casing/padding,
+  `/v1`↔`/v2` and mobile endpoints) — prove the gap, don't flood. On OTP/reset verify this re-enables
+  brute force; see [references/auth-bypass.md](references/auth-bypass.md).
 - **Verb tampering** — `GET` vs `POST` vs `PUT` vs `HEAD` vs arbitrary verbs on the same route.
 - **Content-type confusion** — swap `application/json` ↔ `x-www-form-urlencoded` ↔ `xml` to dodge
   filters/parsers or trigger XXE.
@@ -188,7 +197,9 @@ Proof of Concept (request/response, redacted) · Impact · Remediation · Refere
 - **References:** cite the OWASP API risk (e.g. *API1:2023 BOLA*) **and** the CWE — e.g. CWE-639
   (IDOR/BOLA), CWE-285 (BFLA), CWE-915 (mass assignment), CWE-201 (excessive data exposure), CWE-918
   (SSRF), CWE-89 (SQLi), CWE-943 (NoSQLi), CWE-77/78 (command injection), CWE-1336 (SSTI),
-  CWE-611 (XXE), CWE-347 (JWT signature), CWE-770 (unrestricted resource consumption). Chain related
+  CWE-611 (XXE), CWE-347 (JWT signature), CWE-770 (unrestricted resource consumption), CWE-287
+  (broken authentication), CWE-640 (weak password recovery), CWE-307 (no brute-force protection / OTP),
+  CWE-362 (race). Chain related
   findings so triage sees the full blast radius (e.g. BOLA + excessive data exposure = full-tenant read).
 - State severity on the program's scale with a one-line justification; give a specific, actionable fix
   (e.g. "enforce object-level authz server-side keyed to the session, not the client-supplied ID"),

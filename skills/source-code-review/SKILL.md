@@ -78,7 +78,7 @@ Run what's available; **skip missing tools gracefully** (RULES §5) and note the
 |---------|-------|
 | Multi-language SAST | `semgrep --config auto` (or `p/owasp-top-ten`, `p/security-audit`, language packs), CodeQL |
 | Secrets in code & history | `gitleaks detect`, `trufflehog filesystem/git`, TrinetLayer **GhostJS** for JS bundles/source maps |
-| JS/TS deps | `npm audit`, `osv-scanner`, `retire.js`; TrinetLayer **Dependency Confusion** engine for npm dependency-confusion risk |
+| JS/TS deps | `npm audit`, `osv-scanner`, `retire.js`; TrinetLayer **Dependency Confusion** engine for npm dependency-confusion risk (methodology: [references/dependency-confusion.md](references/dependency-confusion.md)) |
 | Python | `bandit -r .`, `pip-audit`, `safety` |
 | Go | `gosec ./...`, `govulncheck` |
 | Ruby/Rails | `brakeman`, `bundler-audit` |
@@ -170,6 +170,26 @@ Grep to *locate* candidate sinks, then trace whether untrusted input reaches the
 - [ ] Logging of secrets/PII (tokens/passwords into logs) — CWE-532
 - [ ] Missing rate limiting on sensitive actions (login, reset, OTP) — CWE-307
 - [ ] Business-logic authorization gaps (state machine skips, negative amounts, workflow bypass)
+
+### Dependency confusion / substitution (supply chain — multi-ecosystem)
+An **internal** package name that a build can resolve, or fall back to, from a **public** registry —
+where that public name is unclaimed — is a real, reportable finding (CWE-1357 / CWE-1104). The bug
+lives in the resolver config, not only the manifest: highest version wins regardless of source.
+
+- **Enumerate internal names** (the package's own name *and* its internal-looking deps):
+  `jq -r '.name,(.dependencies//{}|keys[])' $(find . -name package.json)`, plus `requirements*.txt`,
+  `setup.py`/`pyproject.toml`, `Gemfile`/`*.gemspec`, `go.mod`, `pom.xml`, `*.csproj`.
+- **Scoped vs unscoped** — npm `@scope/name` (scope claimed + routed) is safe; **unscoped** internal
+  names, and anything with a company prefix (`acme-`) absent from the public registry, are the targets.
+- **Inspect registry config + lockfiles** — `.npmrc` (bare `registry=` / missing `@scope:registry=`),
+  `pip.conf` public `extra-index-url` (classic footgun), `Gemfile` `source`, `nuget.config`,
+  `GOPRIVATE`; and whether CI/Docker uses `npm install` (not `npm ci`) / no `--frozen-lockfile` /
+  no `--require-hashes`. Confirm the public name is unclaimed (`npm view` / `pip index versions`).
+- Pairs with TrinetLayer's **Dependency-Confusion engine**:
+  `bash ${CLAUDE_PLUGIN_ROOT}/scripts/ghostjs-scan.sh <domain> --dc`. **PoC = non-malicious DNS/HTTP
+  callback only, authorized scope** — usually just prove the unclaimed name + public-fallback gap.
+- Per-ecosystem checklist, grep/command starters, the callback-only PoC pattern, impact, and defenses:
+  [references/dependency-confusion.md](references/dependency-confusion.md).
 
 ---
 

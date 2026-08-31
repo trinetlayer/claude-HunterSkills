@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/banner.svg" alt="TrinetLayer — Bug-Hunting Skills for Claude Code" width="100%">
+<img src="assets/hero.svg" alt="TrinetLayer — Bug-Hunting Skills for Claude Code: nine model-invoked skills plus recon automation" width="100%">
 
 <br>
 
@@ -24,7 +24,7 @@ together by an orchestrator that keeps every engagement **authorized, in-scope, 
 git clone https://github.com/trinetlayer/claude-HunterSkills.git && cd claude-HunterSkills && ./install.sh
 ```
 
-<sub>Built by <a href="https://app.trinetlayer.com"><b>TrinetLayer</b></a> — the Attack Surface Lab for bug bounty hunters · <a href="USAGE.md">Usage guide</a> · <a href="#install">Install</a> · <a href="#the-nine-skills">Skills</a></sub>
+<sub>Built by <a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer"><b>TrinetLayer</b></a> — the Attack Surface Lab for bug bounty hunters · <a href="USAGE.md">Usage guide</a> · <a href="#install">Install</a> · <a href="#the-nine-skills">Skills</a></sub>
 
 </div>
 
@@ -55,7 +55,7 @@ the right skill brings the discipline.
 | | Skill | Reach for it when… | Signature classes |
 |---|---|---|---|
 | <img src="assets/icons/orchestrator.svg" width="24" alt=""> | **bug-hunting-orchestrator** | You're starting out, or not sure which skill fits | Scope check · routing · methodology |
-| <img src="assets/icons/web.svg" width="24" alt=""> | **web-app-pentest** | Testing a website, SPA, dashboard or login flow | IDOR/BOLA · XSS · SSRF (IMDSv2) · SQLi · SSTI · auth & logic · chains |
+| <img src="assets/icons/web.svg" width="24" alt=""> | **web-app-pentest** | Testing a website, SPA, dashboard or login flow | IDOR/BOLA · XSS (+mXSS) · SSRF (IMDSv2) · SQLi · CRLF · SSTI · OTP/2FA bypass · chains |
 | <img src="assets/icons/api.svg" width="24" alt=""> | **api-security-testing** | Testing REST / GraphQL / gRPC | OWASP API Top 10 · BOLA/BFLA · JWT · mass assignment · GraphQL DoS |
 | <img src="assets/icons/source.svg" width="24" alt=""> | **source-code-review** | Auditing a repo, PR or diff | source→sink SAST · secrets · dependency confusion · CI/CD injection · crypto misuse |
 | <img src="assets/icons/android.svg" width="24" alt=""> | **android-pentest** | Testing an Android app / APK | MASVS · exported components · insecure storage · Flutter/RN traffic · pinning bypass |
@@ -68,6 +68,11 @@ the right skill brings the discipline.
 how-to-test steps, payload/command-level detail, and a never-submit list. All nine share one rulebook
 ([`skills/shared/RULES.md`](skills/shared/RULES.md)) — and load payload/PoC libraries from each skill's
 `references/` on demand.
+
+> The web, API, and source skills are **enriched with techniques from
+> <a href="https://learn.trinetlayer.com" target="_blank" rel="noopener noreferrer">TrinetLayer Learn</a>**
+> — Beginner → Advanced → Pro material on XSS/mXSS, SQLi, CRLF, IDOR/BOLA, OTP-bypass, and
+> dependency confusion, distilled into payload-level reference libraries.
 
 ---
 
@@ -135,7 +140,7 @@ and set up my Claude Code bug-hunting environment — install the TrinetLayer
 skills and walk me through the rest.
 ```
 
-Claude reads TrinetLayer's **[Claude Code setup guide for bug hunters](https://trinetlayer.com/blogs/claude-code-setup-for-bug-hunters)**,
+Claude reads TrinetLayer's **<a href="https://trinetlayer.com/blogs/claude-code-setup-for-bug-hunters" target="_blank" rel="noopener noreferrer">Claude Code setup guide for bug hunters</a>**,
 installs these skills, and takes you from zero to hunting. Prefer to do it yourself? The manual steps
 are right below.
 
@@ -216,7 +221,7 @@ One rulebook drives all seven skills — [`skills/shared/RULES.md`](skills/share
 
 Optional — the skills work fully on their own, but they'll lean on TrinetLayer's tooling when it helps:
 
-- **[GhostJS](https://app.trinetlayer.com)** — JavaScript recon + secret scanning (subdomain
+- **<a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer">GhostJS</a>** — JavaScript recon + secret scanning (subdomain
   enumeration, source-map/bundle analysis) for the Map phase.
 - **Ghost AI** — AI-enhanced analysis of findings.
 - **Dependency Confusion** engine — npm dependency-confusion detection during source review & recon.
@@ -228,15 +233,19 @@ Optional — the skills work fully on their own, but they'll lean on TrinetLayer
 
 Part of the wider TrinetLayer world — *learn → hunt → test → automate → challenge*:
 
-[**App**](https://app.trinetlayer.com) · [**Learn**](https://learn.trinetlayer.com) ·
-[**Validator**](https://validator.trinetlayer.com) · [**Blog**](https://trinetlayer.com/blogs) ·
-[**Community**](https://trinetlayer.discourse.group)
+<a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer"><b>App</b></a> ·
+<a href="https://learn.trinetlayer.com" target="_blank" rel="noopener noreferrer"><b>Learn</b></a> ·
+<a href="https://validator.trinetlayer.com" target="_blank" rel="noopener noreferrer"><b>Validator</b></a> ·
+<a href="https://trinetlayer.com/blogs" target="_blank" rel="noopener noreferrer"><b>Blog</b></a> ·
+<a href="https://trinetlayer.discourse.group" target="_blank" rel="noopener noreferrer"><b>Community</b></a>
+
+<sub>External TrinetLayer links open in a new tab.</sub>
 
 ---
 
 ## Used by
 
-Built and used first by **[TrinetLayer](https://app.trinetlayer.com)** as the Claude Code companion to
+Built and used first by **<a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer">TrinetLayer</a>** as the Claude Code companion to
 its scanner and reporting platform. Using these skills yourself? Add your name — see
 **[ADOPTERS.md](ADOPTERS.md)** (real, verifiable entries only).
 
