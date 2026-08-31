@@ -15,10 +15,6 @@
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <linearGradient id="lblue" x1="0.15" y1="0.05" x2="0.8" y2="1"><stop offset="0" stop-color="#4C93F7"/><stop offset="0.55" stop-color="#2F6BEA"/><stop offset="1" stop-color="#1E52D6"/></linearGradient>
-    <linearGradient id="lgold" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#FCD34D"/><stop offset="1" stop-color="#F0A81E"/></linearGradient>
-    <linearGradient id="lrim" x1="0" y1="0" x2="1" y2="0.15"><stop offset="0" stop-color="#3B7BEF"/><stop offset="0.5" stop-color="#4C93F7"/><stop offset="0.62" stop-color="#F6C24A"/><stop offset="1" stop-color="#EDA017"/></linearGradient>
-    <clipPath id="lshield"><path d="M100 14 L36 38 C31 40 28 43 28 49 L28 116 C28 160 63 191 100 208 C137 191 172 160 172 116 L172 49 C172 43 169 40 164 38 Z"/></clipPath>
   </defs>
 
   <rect width="1280" height="600" rx="18" fill="url(#ink)"/>
@@ -36,19 +32,14 @@
   </line>
   <circle cx="1075" cy="235" r="5" fill="#22D3EE" filter="url(#glow)"/>
 
-  <!-- TrinetLayer shield logo -->
-  <ellipse cx="150" cy="230" rx="128" ry="94" fill="#2563EB" opacity="0.14">
-    <animate attributeName="opacity" values="0.09;0.24;0.09" dur="3.4s" repeatCount="indefinite"/>
+  <!-- three-layer mark (original design) -->
+  <ellipse cx="155" cy="232" rx="140" ry="86" fill="#6366F1" opacity="0.12">
+    <animate attributeName="opacity" values="0.08;0.22;0.08" dur="3.4s" repeatCount="indefinite"/>
   </ellipse>
-  <g transform="translate(53,118) scale(0.96)">
-    <g clip-path="url(#lshield)">
-      <rect x="0" y="0" width="200" height="220" fill="url(#lblue)"/>
-      <path d="M103 44 Q101 40 106 39 L160 51 Q167 53 167 60 L167 104 Q167 111 160 110 L112 100 Q104 98 104 90 Z" fill="url(#lgold)"/>
-      <path d="M172 60 L172 116 C172 150 152 176 126 192 L120 150 L150 118 Z" fill="url(#lgold)" opacity="0.9"/>
-    </g>
-    <path d="M100 14 L36 38 C31 40 28 43 28 49 L28 116 C28 160 63 191 100 208 C137 191 172 160 172 116 L172 49 C172 43 169 40 164 38 Z" fill="none" stroke="url(#lrim)" stroke-width="5" stroke-linejoin="round"/>
-    <path d="M100 15 L100 42" stroke="#1B48C4" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
-    <polygon points="112,56 71,120 96,120 86,176 131,104 104,104" fill="#FFFFFF"/>
+  <g filter="url(#glow)">
+    <polygon points="55,278 155,240 255,278 155,316" fill="#22D3EE" fill-opacity="0.92"/>
+    <polygon points="55,240 155,202 255,240 155,278" fill="#818CF8" fill-opacity="0.95"/>
+    <polygon points="55,202 155,164 255,202 155,240" fill="#6366F1"/>
   </g>
 
   <!-- headline -->

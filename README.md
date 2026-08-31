@@ -291,10 +291,4 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the details, [ROADMAP.md](ROADMAP.md)
 [MIT](LICENSE) © 2026 TrinetLayer. Provided for **authorized, lawful** security testing only, with no
 warranty. What you point it at is on you.
 
-<div align="center">
-
-<img src="assets/logo.svg" alt="TrinetLayer" width="44">
-
-<sub><b>TrinetLayer</b> · <code>break. test. learn.</code></sub>
-
-</div>
+<div align="center"><sub><b>TrinetLayer</b> · <code>break. test. learn.</code></sub></div>
