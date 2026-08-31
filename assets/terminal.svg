@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 520" width="940" height="520" role="img" aria-label="Example Claude Code session using the web-app-pentest skill to confirm a BOLA finding">
+  <defs>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#12203a"/><stop offset="1" stop-color="#0e1830"/>
+    </linearGradient>
+    <filter id="win" x="-6%" y="-6%" width="112%" height="112%">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#6366F1" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#win)">
+    <rect x="8" y="8" width="924" height="504" rx="14" fill="#0b1220" stroke="#22D3EE" stroke-opacity="0.16"/>
+  </g>
+
+  <!-- title bar -->
+  <path d="M8 22 a14 14 0 0 1 14 -14 h896 a14 14 0 0 1 14 14 v26 h-924 z" fill="url(#bar)"/>
+  <circle cx="34" cy="30" r="6" fill="#EF4444"/>
+  <circle cx="56" cy="30" r="6" fill="#F5B140"/>
+  <circle cx="78" cy="30" r="6" fill="#34D399"/>
+  <text x="470" y="35" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="13" fill="#8B96A9">claude code — trinetlayer/web-app-pentest</text>
+
+  <!-- body -->
+  <g font-family="'JetBrains Mono','SF Mono',ui-monospace,monospace" font-size="14.5">
+    <text x="30" y="96" fill="#5f6b80"># acme corp · web bug bounty — target confirmed in scope</text>
+
+    <text x="30" y="132" fill="#22D3EE">›</text>
+    <text x="52" y="132" fill="#DCE3EF">help me test app.acme.com for IDOR — it's in scope on their H1 program</text>
+
+    <text x="30" y="172" fill="#818CF8">●</text>
+    <text x="52" y="172" fill="#AEB8C9">Skill loaded </text>
+    <text x="164" y="172" fill="#F5F7FA">web-app-pentest</text>
+    <text x="322" y="172" fill="#34D399">authorization: in-scope ✓</text>
+
+    <text x="30" y="202" fill="#818CF8">●</text>
+    <text x="52" y="202" fill="#7B9BF3">Map</text>
+    <text x="96" y="202" fill="#AEB8C9">katana + gau → 214 endpoints, 37 carry object IDs</text>
+
+    <text x="30" y="232" fill="#818CF8">●</text>
+    <text x="52" y="232" fill="#7B9BF3">Probe</text>
+    <text x="110" y="232" fill="#AEB8C9">GET /api/orders/1002 as user B → 200 OK, returns user A's order</text>
+
+    <text x="30" y="262" fill="#818CF8">●</text>
+    <text x="52" y="262" fill="#7B9BF3">Prove</text>
+    <text x="110" y="262" fill="#67E8F9">Trinet Validation Ladder</text>
+
+    <text x="110" y="290" fill="#8FA0B6">real class</text>
+    <text x="204" y="290" fill="#34D399">✓</text>
+    <text x="228" y="290" fill="#8FA0B6">reachable</text>
+    <text x="322" y="290" fill="#34D399">✓</text>
+    <text x="346" y="290" fill="#8FA0B6">exploitable now</text>
+    <text x="486" y="290" fill="#34D399">✓</text>
+    <text x="510" y="290" fill="#8FA0B6">impact: cross-tenant read</text>
+    <text x="734" y="290" fill="#34D399">✓</text>
+
+    <text x="110" y="314" fill="#8FA0B6">in scope</text>
+    <text x="192" y="314" fill="#34D399">✓</text>
+    <text x="216" y="314" fill="#8FA0B6">reproducible</text>
+    <text x="332" y="314" fill="#34D399">✓</text>
+    <text x="356" y="314" fill="#8FA0B6">not a duplicate</text>
+    <text x="490" y="314" fill="#34D399">✓</text>
+    <text x="514" y="314" fill="#8FA0B6">evidence captured</text>
+    <text x="676" y="314" fill="#34D399">✓</text>
+
+    <text x="30" y="352" fill="#34D399">●</text>
+    <text x="52" y="352" fill="#F5F7FA">BOLA confirmed</text>
+    <text x="196" y="352" fill="#8B96A9">— CWE-639 · severity High · cross-tenant order access</text>
+
+    <text x="30" y="382" fill="#818CF8">●</text>
+    <text x="52" y="382" fill="#AEB8C9">drafting impact-first report → HackerOne template, PoC + fix attached</text>
+
+    <text x="30" y="430" fill="#22D3EE">›</text>
+    <rect x="52" y="418" width="11" height="18" rx="2" fill="#22D3EE" opacity="0.9"/>
+  </g>
+
+  <text x="30" y="480" font-family="'JetBrains Mono',monospace" font-size="12" fill="#4d586b">no scope, no active testing — the skill drops to advisory mode instead.</text>
+</svg>

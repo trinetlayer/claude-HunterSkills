@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 360" width="1280" height="360" role="img" aria-label="TrinetLayer Bug-Hunting Skills for Claude Code">
+  <defs>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0d1526"/>
+      <stop offset="1" stop-color="#0b1220"/>
+    </linearGradient>
+    <linearGradient id="ic" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="0.55" stop-color="#818CF8"/>
+      <stop offset="1" stop-color="#22D3EE"/>
+    </linearGradient>
+    <linearGradient id="ic2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#818CF8"/>
+      <stop offset="1" stop-color="#67E8F9"/>
+    </linearGradient>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse">
+      <path d="M34 0H0V34" fill="none" stroke="#6366F1" stroke-opacity="0.07" stroke-width="1"/>
+    </pattern>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="7" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <radialGradient id="spot" cx="0.22" cy="0.3" r="0.8">
+      <stop offset="0" stop-color="#6366F1" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#6366F1" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1280" height="360" rx="16" fill="url(#ink)"/>
+  <rect width="1280" height="360" rx="16" fill="url(#grid)"/>
+  <rect width="1280" height="360" rx="16" fill="url(#spot)"/>
+  <rect x="0.5" y="0.5" width="1279" height="359" rx="16" fill="none" stroke="#22D3EE" stroke-opacity="0.18"/>
+
+  <!-- decorative radar target, right -->
+  <g stroke="#22D3EE" fill="none" opacity="0.16">
+    <circle cx="1120" cy="180" r="42"/>
+    <circle cx="1120" cy="180" r="78"/>
+    <circle cx="1120" cy="180" r="116"/>
+    <line x1="1120" y1="52" x2="1120" y2="308"/>
+    <line x1="992" y1="180" x2="1248" y2="180"/>
+  </g>
+  <circle cx="1120" cy="180" r="5" fill="#22D3EE" filter="url(#glow)"/>
+
+  <!-- three-layer mark -->
+  <g filter="url(#glow)">
+    <polygon points="60,208 150,174 240,208 150,242" fill="#22D3EE" fill-opacity="0.92"/>
+    <polygon points="60,174 150,140 240,174 150,208" fill="#818CF8" fill-opacity="0.95"/>
+    <polygon points="60,140 150,106 240,140 150,174" fill="#6366F1"/>
+  </g>
+  <g fill="none" stroke="#0b1220" stroke-opacity="0.5" stroke-width="1.5">
+    <polygon points="60,208 150,174 240,208 150,242"/>
+    <polygon points="60,174 150,140 240,174 150,208"/>
+    <polygon points="60,140 150,106 240,140 150,174"/>
+  </g>
+
+  <!-- text block -->
+  <text x="300" y="98" font-family="'JetBrains Mono','SF Mono',ui-monospace,monospace" font-size="15" letter-spacing="4" fill="#67E8F9">TRINETLAYER · ATTACK SURFACE LAB</text>
+
+  <text x="298" y="164" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="52" font-weight="700" fill="#F5F7FA" letter-spacing="-1">Bug-Hunting Skills</text>
+  <text x="300" y="216" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="52" font-weight="700" letter-spacing="-1" fill="url(#ic)">for Claude Code</text>
+
+  <text x="302" y="256" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="18" fill="#9AA6B8">Seven model-invoked skills for authorized, in-scope security testing.</text>
+
+  <!-- chips -->
+  <g font-family="'JetBrains Mono',ui-monospace,monospace" font-size="13" fill="#C7D0E0">
+    <g>
+      <rect x="300" y="284" width="66" height="30" rx="8" fill="#141d31" stroke="#6366F1" stroke-opacity="0.5"/>
+      <text x="333" y="304" text-anchor="middle">web</text>
+    </g>
+    <g>
+      <rect x="374" y="284" width="60" height="30" rx="8" fill="#141d31" stroke="#6366F1" stroke-opacity="0.5"/>
+      <text x="404" y="304" text-anchor="middle">api</text>
+    </g>
+    <g>
+      <rect x="442" y="284" width="86" height="30" rx="8" fill="#141d31" stroke="#6366F1" stroke-opacity="0.5"/>
+      <text x="485" y="304" text-anchor="middle">source</text>
+    </g>
+    <g>
+      <rect x="536" y="284" width="92" height="30" rx="8" fill="#141d31" stroke="#22D3EE" stroke-opacity="0.5"/>
+      <text x="582" y="304" text-anchor="middle">android</text>
+    </g>
+    <g>
+      <rect x="636" y="284" width="56" height="30" rx="8" fill="#141d31" stroke="#22D3EE" stroke-opacity="0.5"/>
+      <text x="664" y="304" text-anchor="middle">ios</text>
+    </g>
+    <g>
+      <rect x="700" y="284" width="74" height="30" rx="8" fill="#141d31" stroke="#22D3EE" stroke-opacity="0.5"/>
+      <text x="737" y="304" text-anchor="middle">web3</text>
+    </g>
+  </g>
+</svg>
