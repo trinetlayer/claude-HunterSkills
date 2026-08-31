@@ -20,7 +20,7 @@ engagement **authorized, in-scope, and reportable**.
 <br>
 
 ```bash
-git clone https://github.com/trinetlayer/trinetlayer-skills.git && cd trinetlayer-skills && ./install.sh
+git clone https://github.com/trinetlayer/claude-HunterSkills.git && cd claude-HunterSkills && ./install.sh
 ```
 
 <sub>Built by <a href="https://app.trinetlayer.com"><b>TrinetLayer</b></a> — the Attack Surface Lab for bug bounty hunters · <a href="USAGE.md">Usage guide</a> · <a href="#install">Install</a> · <a href="#the-seven-skills">Skills</a></sub>
@@ -104,8 +104,8 @@ matching skill loads its recon steps, checklists, payloads and reporting format 
 <summary><b>Option A — installer script</b> (personal, global — recommended)</summary>
 
 ```bash
-git clone https://github.com/trinetlayer/trinetlayer-skills.git
-cd trinetlayer-skills
+git clone https://github.com/trinetlayer/claude-HunterSkills.git
+cd claude-HunterSkills
 ./install.sh            # copy into ~/.claude/skills
 # or
 ./install.sh --link     # symlink instead, so `git pull` auto-updates
@@ -116,7 +116,7 @@ cd trinetlayer-skills
 <summary><b>Option B — Claude Code plugin marketplace</b></summary>
 
 ```
-/plugin marketplace add trinetlayer/trinetlayer-skills
+/plugin marketplace add trinetlayer/claude-HunterSkills
 /plugin install trinetlayer-bug-hunting@trinetlayer
 ```
 </details>
