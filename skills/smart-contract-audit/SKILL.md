@@ -259,6 +259,10 @@ gaming, oracle-lag arbitrage. Ask: what does a rational, well-capitalized advers
 | Honeypot pattern | Buys succeed, sells revert; asymmetric buy/sell tax; hidden transfer hooks. |
 | Ownership | Not renounced / not a timelock+multisig where the docs claim it is. |
 
+See the full read-only token/rug checklist (mint, ownership/renounce, tax, blacklist/pause,
+honeypot, LP lock, proxy — with GoPlus/honeypot.is/Token Sniffer tooling):
+[references/token-safety.md](references/token-safety.md).
+
 ---
 
 ## 5. PoC & validation

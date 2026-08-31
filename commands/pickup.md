@@ -1,16 +1,17 @@
 ---
-description: Resume a hunt — read the engagement's notes and suggest the next untested paths.
+description: Resume a hunt — read persistent hunt memory and suggest the next untested paths.
 argument-hint: [target]
-allowed-tools: Read, Glob, Grep
+allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/scripts/memory.sh *), Read, Glob, Grep
 ---
 
 Resume the engagement$([ -n "$ARGUMENTS" ] && echo " for $ARGUMENTS").
 
-Read `./hunt-notes.md` (and any `./trinet-recon/*/summary.txt` recon output) and reconstruct state:
+Pull prior state from hunt memory (and any `./trinet-recon/*/summary.txt`):
 
-- **Confirmed findings** so far (ready to report / reported).
-- **Open leads** still worth testing.
-- **Dead paths** already tried — do **not** retest these.
+```
+bash ${CLAUDE_PLUGIN_ROOT}/scripts/memory.sh query <target>     # or: memory.sh list
+```
 
-Then propose the **3–5 highest-value next tests**, skipping anything marked dead, highest-impact first.
-If no notes exist yet, say so and start fresh from the Map phase (recon).
+Reconstruct: **confirmed findings**, **open leads**, and **dead paths** (do NOT retest these). Then
+propose the **3–5 highest-value next tests**, skipping dead paths, highest-impact first. If there's no
+memory yet, say so and start fresh from the Map phase (also check `./hunt-notes.md`).

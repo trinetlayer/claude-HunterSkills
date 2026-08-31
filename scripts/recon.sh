@@ -93,6 +93,18 @@ if have nuclei && [ -s "$OUT/live-urls.txt" ]; then
   TO 600 nuclei -l "$OUT/live-urls.txt" -severity medium,high,critical -rl "$RL" -silent 2>/dev/null > "$OUT/nuclei.txt" || true
 else skip nuclei; fi
 
+# 4b) optional extras: ports + subdomain-takeover (skipped if tools absent)
+echo "[+] extras (ports / takeover)"
+if have naabu; then
+  TO 300 naabu -l "$OUT/subs.txt" -top-ports 100 -silent 2>/dev/null > "$OUT/ports.txt" || true
+else skip naabu; fi
+if have dnsx; then
+  TO 180 dnsx -l "$OUT/subs.txt" -cname -resp-only -silent 2>/dev/null | sort -u > "$OUT/cnames.txt" || true
+fi
+if have nuclei && [ -s "$OUT/live-urls.txt" ]; then
+  TO 300 nuclei -l "$OUT/live-urls.txt" -tags takeover -silent 2>/dev/null > "$OUT/takeover.txt" || true
+fi
+
 # 5) summary
 echo "[5/5] summary"
 c(){ [ -f "$1" ] && wc -l < "$1" | tr -d ' ' || echo 0; }
@@ -106,6 +118,8 @@ urls (crawled):    $(c "$OUT/urls.txt")
 js assets:         $(c "$OUT/js.txt")
 param/endpoints:   $(c "$OUT/params-endpoints.txt")
 nuclei findings:   $(c "$OUT/nuclei.txt")
+open ports:        $(c "$OUT/ports.txt")
+takeover flags:    $(c "$OUT/takeover.txt")
 
 Next: rank live hosts by impact × reachability, pull secrets from js.txt
 (or run scripts/ghostjs-scan.sh), then test highest-impact classes first.

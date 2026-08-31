@@ -6,37 +6,30 @@ propose or claim anything.
 
 ## ✅ Shipped
 
-- 9 skills: orchestrator + web / API / source / Android / iOS / EVM / **Solana** / **Move**.
+- **12 skills:** orchestrator + web / API / source / Android / iOS / EVM / **Solana** / **Move** /
+  **cloud** / **LLM red-team** / **credential-recon**.
 - Shared rulebook: authorization gate, **Map → Prioritize → Probe → Prove → Report**, the 8-rung
   **Trinet Validation Ladder**, impact-first report format.
-- **Automation:** `recon.sh` (subfinder→httpx→katana→gau→nuclei, scope-gated, per-tool timeouts) and a
-  real **GhostJS `/api/v1`** + dependency-confusion scanner; `recon-runner` subagent.
-- **Commands:** `/recon` `/validate` `/report` `/chain` `/remember` `/pickup`.
-- Per-skill `references/` payload + PoC libraries. Validate CI (frontmatter + SVG + shellcheck).
+- **Automation:** `recon.sh` (subfinder→httpx→katana→gau→nuclei + optional naabu/takeover, scope-gated,
+  per-tool timeouts), a real **GhostJS `/api/v1`** + dependency-confusion scanner, and the `recon-runner`
+  subagent.
+- **Autopilot** — guarded human-on-the-loop hunt-loop (`/autopilot`) with mandatory checkpoints.
+- **Persistent hunt-memory** — `scripts/memory.sh` (JSONL, rotated) backing `/remember` `/pickup` `/chain`.
+- **MCP integrations guide** — Burp / Caido / HackerOne / ProjectDiscovery (`mcp/`).
+- **Token/rug references** — EVM + Solana token-safety checklists.
+- **Commands:** `/recon` `/recon-rank` `/validate` `/report` `/chain` `/remember` `/pickup` `/autopilot`
+  `/cloud-recon` `/llm-redteam` `/takeover` `/jwt-scan`.
+- Per-skill `references/` payload + PoC libraries. Validate CI (frontmatter + SVG + shellcheck + JSON).
 
 ## 🔜 Next (planned)
 
-- **Hunt-memory as data, not just notes** — a small helper that persists findings/patterns to
-  `${CLAUDE_PLUGIN_DATA}` (JSONL, rotated) so insight from one target informs the next. Builds on
-  `/remember` + `/pickup`. `help wanted`
-- **Cloud recon** — S3/GCS/Azure bucket enumeration + CDN origin-IP discovery, as a `references/` pack
-  and an optional `recon.sh` stage (naabu/smap for non-HTTP services). `help wanted`
-- **Token / rug-pull checks** — formalize the EVM/Solana token-safety checklist (mint authority, LP
-  lock, blacklist/pause, honeypot, bonding-curve) into a shared `references/token-safety.md`. `help wanted`
+- **Hunt-memory intelligence** — pattern-mining across the JSONL store (which classes hit on which stacks)
+  to auto-prioritize the next hunt. `help wanted`
 - **More report templates** — YesWeHack, Synack, HackenProof formats alongside H1/Bugcrowd/Intigriti/
   Immunefi. `help wanted`
-- **Multi-harness** — an `AGENTS.md` so OpenCode / Codex / other harnesses can load the methodology.
-
-## 🧪 Exploring (needs design / discussion)
-
-- **MCP integrations** — first-class Burp / Caido / HackerOne MCP wiring (via `.mcp.json`), so the skills
-  can drive a proxy and pull program scope directly. Open an issue with the server you'd use. `help wanted`
-- **Autopilot** — a guarded autonomous loop (scope → recon → probe → validate → report) with mandatory
-  human checkpoints before anything active or state-changing. Must not weaken the authorization gate.
-- **LLM red-team pack** — prompt-injection / jailbreak / data-exfil test corpus for AI-backed endpoints
-  (pairs with TrinetLayer's AI-security work).
-- **Credential-recon (guardrailed)** — wordlist/OSINT/breach-check methodology with a **hard stop before
-  spray** and explicit written-approval gate. Sensitive — design-first.
+- **Deeper MCP** — a first-party helper that auto-detects installed Burp/Caido and writes the MCP config.
+  `help wanted`
+- **Multi-harness** — extend `AGENTS.md` coverage for OpenCode / Codex / other harnesses.
 
 ## Non-goals
 

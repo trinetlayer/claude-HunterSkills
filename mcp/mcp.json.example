@@ -1,0 +1,25 @@
+{
+  "_comment": "Example MCP wiring for the TrinetLayer bug-hunting skills. This is a TEMPLATE, not an active config — copy the entries you actually use into your Claude Code MCP settings (or the plugin root .mcp.json) AFTER installing each server. Fill in paths/tokens. Do not ship this as-is; a missing server command will break startup. See mcp/README.md.",
+  "mcpServers": {
+    "burp": {
+      "_comment": "Official PortSwigger Burp Suite MCP (BApp). Enable in Burp's MCP tab (SSE on 127.0.0.1:9876), then bridge stdio via the bundled proxy jar.",
+      "command": "/path/to/java",
+      "args": ["-jar", "/path/to/mcp-proxy-all.jar", "--sse-url", "http://127.0.0.1:9876"]
+    },
+    "caido": {
+      "_comment": "Community caido-mcp-server (c0tton-fluff). Create a PAT in Caido → Settings → Developer.",
+      "command": "caido-mcp-server",
+      "args": ["serve"],
+      "env": { "CAIDO_URL": "http://127.0.0.1:8080", "CAIDO_ACCESS_TOKEN": "REPLACE_ME" }
+    },
+    "hackerone": {
+      "_comment": "Official HackerOne MCP is REMOTE + read-only (scope/programs/hacktivity). Add it as a remote/HTTP MCP in your client per HackerOne's docs; it is not a local command. Report submission is NOT available here — use a community REST-wrapping server for writes, behind a human confirmation.",
+      "url": "https://hackerone.com/mcp"
+    },
+    "projectdiscovery": {
+      "_comment": "Community pd-tools-mcp (intelligent-ears): wraps subfinder/dnsx/naabu/httpx/katana/nuclei. Install the PD binaries + build the server first.",
+      "command": "node",
+      "args": ["/absolute/path/to/pdmcp/build/index.js"]
+    }
+  }
+}

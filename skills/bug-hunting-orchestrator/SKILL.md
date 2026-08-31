@@ -4,7 +4,7 @@ description: >-
   Entry point and methodology hub for security testing and bug-bounty hunting with TrinetLayer.
   Use this when the user wants to hunt bugs, run a pentest, do a security assessment, or isn't sure
   which specialized skill applies. It confirms authorization/scope, picks the right domain skill
-  (web app, API, source code, Android, iOS, EVM/Solidity, Solana, or Move), and enforces the shared
+  (web, API, source, Android, iOS, EVM/Solana/Move, cloud, LLM, or credential recon), and enforces the shared
   Map→Prioritize→Probe→Prove→Report workflow, the Trinet Validation Ladder, and the reporting format.
   Triggers on requests like "help me hunt bugs on
   X", "pentest this", "security review", "find vulnerabilities", "audit this target".
@@ -50,9 +50,16 @@ backend uses both `web-app-pentest` and `api-security-testing`).
 | Solidity / **EVM** / DeFi / token / on-chain protocol | **smart-contract-audit** |
 | **Solana** program / Anchor / SPL / Rust on-chain | **solana-audit** |
 | **Move** contract / **Sui** or **Aptos** package | **move-audit** |
+| **Cloud** — AWS/GCP/Azure, buckets, K8s/containers, origin-IP | **cloud-pentest** |
+| **AI / LLM** feature — chatbot, RAG, agent endpoint | **llm-redteam** |
+| Credential recon — OSINT / wordlist / breach-check (pre-spray) | **credential-recon** |
 
 If the ask is broad ("assess this company"), start with recon (web + API + source if a repo is in
 scope), map the surface, then dive per-asset.
+
+**Full auto:** for "hunt this end to end", delegate to the **autopilot** agent (`/autopilot <target>`) —
+it drives the whole loop but stops at mandatory human checkpoints before anything active or
+state-changing, and never touches out-of-scope hosts.
 
 ## Step 3 — Run the workflow: Map → Prioritize → Probe → Prove → Report
 

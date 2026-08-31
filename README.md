@@ -1,22 +1,23 @@
 <div align="center">
 
-<img src="assets/hero.svg" alt="TrinetLayer — Bug-Hunting Skills for Claude Code: nine model-invoked skills plus recon automation" width="100%">
+<img src="assets/hero.svg" alt="TrinetLayer — Bug-Hunting Skills for Claude Code: twelve skills plus a guarded autopilot and recon automation" width="100%">
 
 <br>
 
 [![Validate](https://github.com/trinetlayer/claude-HunterSkills/actions/workflows/validate.yml/badge.svg)](https://github.com/trinetlayer/claude-HunterSkills/actions/workflows/validate.yml)
 [![License](https://img.shields.io/badge/license-MIT-6366F1?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-9-22D3EE?style=flat-square)](#the-nine-skills)
+[![Skills](https://img.shields.io/badge/skills-12-22D3EE?style=flat-square)](#the-twelve-skills)
 [![For](https://img.shields.io/badge/for-Claude%20Code-818CF8?style=flat-square)](https://claude.com/claude-code)
-![Coverage](https://img.shields.io/badge/coverage-8%20surfaces-0B1220?style=flat-square&labelColor=6366F1)
+![Coverage](https://img.shields.io/badge/coverage-11%20surfaces-0B1220?style=flat-square&labelColor=6366F1)
 [![Use](https://img.shields.io/badge/use-authorized%20only-EF4444?style=flat-square)](#authorized-use-only)
 ![Plugin](https://img.shields.io/badge/plugin-marketplace%20ready-34D399?style=flat-square)
 
 ### Turn Claude into a disciplined bug-bounty & pentest co-pilot.
 
-Nine model-invoked [Claude Code](https://claude.com/claude-code) skills — web app, API, source-code
-review, Android, iOS, and **EVM · Solana · Move** smart contracts — plus bundled recon automation, tied
-together by an orchestrator that keeps every engagement **authorized, in-scope, and reportable**.
+Twelve model-invoked [Claude Code](https://claude.com/claude-code) skills — web, API, source, Android,
+iOS, **EVM · Solana · Move** contracts, **cloud, and LLM red-team** — plus a guarded **autopilot**,
+persistent hunt-memory, and recon automation, tied together by an orchestrator that keeps every
+engagement **authorized, in-scope, and reportable**.
 
 <br>
 
@@ -24,7 +25,7 @@ together by an orchestrator that keeps every engagement **authorized, in-scope, 
 git clone https://github.com/trinetlayer/claude-HunterSkills.git && cd claude-HunterSkills && ./install.sh
 ```
 
-<sub>Built by <a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer"><b>TrinetLayer</b></a> — the Attack Surface Lab for bug bounty hunters · <a href="USAGE.md">Usage guide</a> · <a href="#install">Install</a> · <a href="#the-nine-skills">Skills</a></sub>
+<sub>Built by <a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer"><b>TrinetLayer</b></a> — the Attack Surface Lab for bug bounty hunters · <a href="USAGE.md">Usage guide</a> · <a href="#install">Install</a> · <a href="#the-twelve-skills">Skills</a></sub>
 
 </div>
 
@@ -46,7 +47,7 @@ the right skill brings the discipline.
 
 ---
 
-## The nine skills
+## The twelve skills
 
 <div align="center">
 <img src="assets/surface-map.svg" alt="The orchestrator routes each request to the matching skill" width="92%">
@@ -63,9 +64,12 @@ the right skill brings the discipline.
 | <img src="assets/icons/contract.svg" width="24" alt=""> | **smart-contract-audit** | Auditing **EVM** Solidity / DeFi | reentrancy · oracle manipulation · access control · L2/cross-chain · Foundry PoC |
 | <img src="assets/icons/solana.svg" width="24" alt=""> | **solana-audit** | Auditing **Solana** / Anchor (Rust) | missing signer/owner · type-cosplay · arbitrary CPI · PDA bump · sysvar spoof · litesvm PoC |
 | <img src="assets/icons/move.svg" width="24" alt=""> | **move-audit** | Auditing **Move** — Sui / Aptos | capability & visibility · owned-vs-shared objects · hot-potato · witness confusion · Move Prover |
+| <img src="assets/icons/cloud.svg" width="24" alt=""> | **cloud-pentest** | AWS / GCP / Azure · K8s / containers | bucket enum · origin-IP bypass · read-only IAM enum · kubelet/Docker/etcd · escape indicators |
+| <img src="assets/icons/llm.svg" width="24" alt=""> | **llm-redteam** | An AI / LLM feature (chatbot, RAG, agent) | OWASP LLM Top 10 · prompt injection · system-prompt leak · insecure output → XSS/SSRF · tool-use exfil |
+| <img src="assets/icons/cred.svg" width="24" alt=""> | **credential-recon** | Building an authorized credential picture | OSINT · breach exposure · policy discovery · wordlist — **hard stop before spray** |
 
-**50+ vulnerability classes** across Web2, mobile, and Web3 (EVM · Solana · Move) — each with
-how-to-test steps, payload/command-level detail, and a never-submit list. All nine share one rulebook
+**70+ vulnerability classes** across Web2, mobile, Web3 (EVM · Solana · Move), cloud, and AI — each with
+how-to-test steps, payload/command-level detail, and a never-submit list. All twelve share one rulebook
 ([`skills/shared/RULES.md`](skills/shared/RULES.md)) — and load payload/PoC libraries from each skill's
 `references/` on demand.
 
@@ -117,13 +121,33 @@ don't have and timing out rather than hanging.
   structured run dir. → `bash scripts/recon.sh <target> --yes-authorized`
 - **`scripts/ghostjs-scan.sh`** — a **real** TrinetLayer `/api/v1` GhostJS JS-secret + npm
   dependency-confusion scan. → `TRINETLAYER_API_KEY=gjs_… bash scripts/ghostjs-scan.sh <target> --dc`
-- **`recon-runner`** subagent — runs recon and returns a *ranked attack surface*, keeping the noise out
-  of your main session.
-- **Slash commands** — `/recon <target>`, `/validate` (run a finding up the Trinet Validation Ladder),
-  `/report` (impact-first write-up), `/chain` (correlate findings into higher-impact chains),
-  `/remember` + `/pickup` (a lightweight hunt-memory so long or resumed engagements keep context).
+- **`scripts/memory.sh`** — persistent **hunt-memory** (JSONL): logs leads / confirmed / dead paths so a
+  resumed hunt — and the *next* target — build on the last. Backs `/remember`, `/pickup`, `/chain`.
+- **Subagents** — **`recon-runner`** (returns a ranked attack surface, off your main context) and
+  **`autopilot`** (below).
+- **Slash commands** — `/recon` · `/validate` · `/report` · `/chain` · `/remember` · `/pickup` ·
+  `/autopilot` · `/cloud-recon` · `/llm-redteam` · `/recon-rank` · `/takeover` · `/jwt-scan`.
+
+### Autopilot — the whole loop, safely
+
+`/autopilot <target>` drives **scope → recon → hunt → validate → report** for you — but it's
+*human-on-the-loop*, not fully autonomous. It **stops at mandatory checkpoints** before any active
+testing, before any state-changing exploitation, and before submitting — and it **hard-refuses**
+out-of-scope hosts, DoS, credential spraying, and destructive actions. You stay in control; it does the
+legwork.
 
 Everything recon surfaces is a **lead** — nothing is a finding until it climbs the Validation Ladder.
+
+---
+
+## Integrations (optional)
+
+Run **Burp**, **Caido**, **HackerOne**, or the **ProjectDiscovery** tools? Wire them to Claude as MCP
+servers and the skills will use them — read Burp/Caido proxy history during Probe, pull HackerOne scope
+during Map, drive nuclei/httpx directly. It's opt-in (we don't ship an active config that could break
+startup): copy the entries you use from **[`mcp/mcp.json.example`](mcp/mcp.json.example)** — full guide in
+**[`mcp/README.md`](mcp/README.md)**. The HackerOne official server is read-only; any submission stays
+behind a human confirmation.
 
 ---
 
@@ -239,6 +263,18 @@ One rulebook drives all seven skills — [`skills/shared/RULES.md`](skills/share
   impact · in scope · reproducible · not a duplicate · evidence captured*). If a finding can't climb
   all eight, it isn't ready. This is what protects your signal on bounty platforms.
 - **Impact-first report format** — with HackerOne / Bugcrowd / Intigriti / Immunefi templates.
+
+---
+
+## How it compares
+
+Built for **breadth + safety**. Against other agentic bug-hunting tools, this pack goes wider — it's the
+one that covers **mobile (Android/iOS)** *and* **non-EVM Web3 (Solana + Move)** *and* **cloud** *and*
+**LLM red-team** — and it leans on a **human-on-the-loop autopilot** with hard checkpoints instead of
+fire-and-forget autonomy. It's Claude-Code-native (no separate CLI, no paid model keys), wires real
+Burp/Caido/HackerOne/ProjectDiscovery tooling over MCP, and is the only one that plugs straight into
+TrinetLayer's GhostJS scanning and VAPT reporting. Want a mature standalone CLI with offline models?
+Other projects lead there. Want the broadest, safest coverage inside Claude Code? This is it.
 
 ---
 

@@ -3,6 +3,31 @@
 All notable changes to this project are documented here. Format loosely follows
 [Keep a Changelog](https://keepachangelog.com/); this project uses simple date-stamped versions.
 
+## [2.0.0] — 2026-09-01
+
+The automation + coverage leap — broadest and safest agentic bug-hunting pack in Claude Code.
+
+### Added
+- **Autopilot** — an `agents/autopilot.md` subagent + `/autopilot <target>` that drives the whole loop
+  (scope → recon → hunt → validate → report) as **human-on-the-loop**: mandatory checkpoints before
+  active testing, before state-changing exploitation, and before submission; hard-refuses out-of-scope
+  hosts, DoS, credential spraying, and destructive actions; keeps a timestamped audit log.
+- **Persistent hunt-memory** — `scripts/memory.sh` (JSONL in `${CLAUDE_PLUGIN_DATA}`, rotation) backing
+  `/remember` · `/pickup` · `/chain`, so insight carries across sessions and targets.
+- **Three new skills** — **cloud-pentest** (AWS/GCP/Azure buckets, Cloudflare origin-IP bypass,
+  read-only IAM enum, K8s/Docker/etcd + escape indicators), **llm-redteam** (OWASP LLM Top 10 2025 —
+  prompt injection, system-prompt leak, insecure output→XSS/SSRF, tool-use exfil), and
+  **credential-recon** (OSINT/wordlist/breach-check with a hard stop before any spray). → **12 skills**.
+- **Token/rug references** for EVM (`smart-contract-audit`) and Solana (`solana-audit`).
+- **MCP integrations guide** (`mcp/README.md` + `mcp/mcp.json.example`) for Burp (official), Caido,
+  HackerOne (official read-only + community write), and ProjectDiscovery — opt-in, non-breaking.
+- **New commands** — `/cloud-recon` · `/llm-redteam` · `/recon-rank` · `/takeover` · `/jwt-scan`.
+- `recon.sh` gained optional `naabu` (ports) and subdomain-takeover stages (skip if the tool is absent).
+
+### Changed
+- README rebuilt for 12 skills + Autopilot, Integrations, and an honest "How it compares" section;
+  plugin bumped to **2.0.0**; ROADMAP items marked shipped.
+
 ## [1.1.0] — 2026-09-01
 
 Turns the pack from pure methodology into a working tool.

@@ -42,6 +42,8 @@ Trinet Validation Ladder (RULES §3) (§4) → **Reporting** (§5). Log every pr
 **Deep references (load on demand):**
 - `references/checklist.md` — grep-able questions per vuln class + the secure Anchor idiom for each.
 - `references/poc-anchor.md` — copy-pasteable Anchor mocha PoC skeleton + a litesvm (Rust/TS) note.
+- **Token / rug safety (SPL)** — read-only checklist for vetting an SPL token (mint/freeze/update
+  authority revoked, LP/bonding-curve, holder concentration; RugCheck): [references/token-safety.md](references/token-safety.md).
 
 ---
 

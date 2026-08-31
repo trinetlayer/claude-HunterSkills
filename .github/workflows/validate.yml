@@ -60,6 +60,6 @@ jobs:
           find assets -name '*.svg' -print0 | xargs -0 xmllint --noout
           echo "all SVGs valid"
 
-      - name: Sanity-check plugin manifests
+      - name: Sanity-check plugin manifests + MCP example
         run: |
-          python3 -c "import json,sys; json.load(open('.claude-plugin/plugin.json')); json.load(open('.claude-plugin/marketplace.json')); print('manifests: valid JSON')"
+          python3 -c "import json; json.load(open('.claude-plugin/plugin.json')); json.load(open('.claude-plugin/marketplace.json')); json.load(open('mcp/mcp.json.example')); print('manifests + mcp.json.example: valid JSON')"

@@ -28,14 +28,23 @@ payload design, report drafting) and won't run active tests.
 | "Audit this lending protocol's Solidity for reentrancy and oracle bugs." | smart-contract-audit |
 | "Audit this Anchor program for missing signer/owner checks." | solana-audit |
 | "Review this Sui Move module's object & capability model." | move-audit |
+| "Find exposed S3 buckets and the origin IP behind their Cloudflare." | cloud-pentest |
+| "Red-team our support chatbot for prompt injection & system-prompt leak." | llm-redteam |
+| "Build an authorized credential-recon picture for this engagement." | credential-recon |
+| "Autopilot this in-scope target end to end." | autopilot (guarded loop) |
 | "Assess this company — I have web, API, and a repo in scope." | orchestrator → multiple |
 
 ### Automation commands
 
 ```text
 /recon example.com          # run the recon pipeline, get a ranked attack surface
+/recon-rank                 # rank the surface by impact × reachability
 /validate <paste finding>   # run it up the 8-rung Trinet Validation Ladder
 /report <notes> [platform]  # impact-first write-up (H1/Bugcrowd/Intigriti/Immunefi)
+/chain                      # correlate findings into higher-impact chains
+/remember / /pickup         # persistent hunt-memory across sessions & targets
+/autopilot example.com      # guarded end-to-end loop (stops at human checkpoints)
+/cloud-recon / /llm-redteam / /takeover / /jwt-scan
 ```
 
 Or just say *"run recon on this in-scope target"* and the skill fires `scripts/recon.sh` (and
