@@ -1,0 +1,36 @@
+name: "False positive / bad guidance"
+description: A skill flagged something that isn't a real bug, or gave guidance that leads to N/A reports.
+title: "[fp] <skill>: <what it wrongly flags>"
+labels: ["false-positive"]
+body:
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Which skill?
+      options:
+        - web-app-pentest
+        - api-security-testing
+        - source-code-review
+        - android-pentest
+        - ios-pentest
+        - smart-contract-audit
+        - solana-audit
+        - move-audit
+        - shared / RULES
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What does it wrongly flag / advise?
+      description: The check/payload/guidance, and why it isn't a real, reportable bug.
+      placeholder: e.g. "flags missing security headers as a finding, but the program N/As these…"
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: Suggested fix
+      description: Add it to the never-submit list, tighten the Validation Ladder wording, correct the payload, etc.
+    validations:
+      required: false

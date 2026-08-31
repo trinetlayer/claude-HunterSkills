@@ -19,6 +19,10 @@ Turns the pack from pure methodology into a working tool.
 - **Payload & PoC reference files** (`references/`, progressive disclosure): web payload library,
   GraphQL & JWT packs, Foundry PoC + invariant skeleton, Android/iOS Frida hooks, a custom Semgrep rule.
 - CI now runs **shellcheck** and validates agents/commands frontmatter.
+- **Hunt memory & chaining:** `/chain` (correlate findings into higher-impact chains), `/remember`
+  and `/pickup` (a lightweight per-engagement notes file so long/resumed hunts keep context).
+- **Community:** `ADOPTERS.md` (+ "Used by"), `ROADMAP.md` (with `help wanted` items), `AGENTS.md`
+  (multi-harness), a false-positive issue template, and a professional Contributing flow in the README.
 
 ### Changed
 - `web-app-pentest` / `api-security-testing` / `source-code-review` wire the recon + GhostJS scripts
