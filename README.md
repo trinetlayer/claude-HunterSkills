@@ -8,7 +8,7 @@
 [![License](https://img.shields.io/badge/license-MIT-6366F1?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-9-22D3EE?style=flat-square)](#the-nine-skills)
 [![For](https://img.shields.io/badge/for-Claude%20Code-818CF8?style=flat-square)](https://claude.com/claude-code)
-![Coverage](https://img.shields.io/badge/coverage-6%20surfaces-0B1220?style=flat-square&labelColor=6366F1)
+![Coverage](https://img.shields.io/badge/coverage-8%20surfaces-0B1220?style=flat-square&labelColor=6366F1)
 [![Use](https://img.shields.io/badge/use-authorized%20only-EF4444?style=flat-square)](#authorized-use-only)
 ![Plugin](https://img.shields.io/badge/plugin-marketplace%20ready-34D399?style=flat-square)
 
@@ -148,37 +148,104 @@ are right below.
 
 ## Install
 
+New to Claude Code? This takes about **two minutes**. Pick one install method, restart Claude, and
+start describing your task — the right skill loads itself.
+
+### 1. Prerequisites
+
+| Need | Why | Get it |
+|------|-----|--------|
+| **Claude Code** | These are Claude Code skills. | <a href="https://claude.com/claude-code" target="_blank" rel="noopener noreferrer">claude.com/claude-code</a> |
+| **git** | To clone the repo (Option A/C). | `git --version` — preinstalled on most systems |
+| Recon tools *(optional)* | Make `/recon` actually run. | see [step 4](#4-optional-install-the-recon-tools) — skills work without them |
+| TrinetLayer API key *(optional)* | Enables the hosted GhostJS scan. | Pro key at <a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer">app.trinetlayer.com</a> |
+
+### 2. Install the skills — pick one
+
 <details open>
-<summary><b>Option A — installer script</b> (personal, global — recommended)</summary>
+<summary><b>Option A — installer script</b> (personal, global — recommended for most people)</summary>
+
+Installs all 9 skills into `~/.claude/skills/` so they're available in **every** Claude Code session.
 
 ```bash
 git clone https://github.com/trinetlayer/claude-HunterSkills.git
 cd claude-HunterSkills
-./install.sh            # copy into ~/.claude/skills
-# or
-./install.sh --link     # symlink instead, so `git pull` auto-updates
+./install.sh            # copy the skills into ~/.claude/skills
+# or:
+./install.sh --link     # symlink instead — `git pull` then auto-updates you to the latest
 ```
 </details>
 
 <details>
-<summary><b>Option B — Claude Code plugin marketplace</b></summary>
+<summary><b>Option B — Claude Code plugin marketplace</b> (no clone, updates via the plugin manager)</summary>
+
+Run these **inside** Claude Code (they're slash commands, not shell):
 
 ```
 /plugin marketplace add trinetlayer/claude-HunterSkills
 /plugin install trinetlayer-bug-hunting@trinetlayer
 ```
+
+Update later with `/plugin update trinetlayer-bug-hunting`.
 </details>
 
 <details>
-<summary><b>Option C — project-scoped</b> (one engagement only)</summary>
+<summary><b>Option C — project-scoped</b> (only inside one engagement folder)</summary>
+
+Installs into `<project>/.claude/skills/` — handy to keep a client engagement self-contained.
 
 ```bash
-./install.sh --project /path/to/your/engagement   # installs into <project>/.claude/skills
+./install.sh --project /path/to/your/engagement
 ```
 </details>
 
-Then start a fresh Claude Code session and just describe the task. To remove everything:
-`./install.sh --uninstall`.
+### 3. Verify it worked
+
+Start a **fresh** Claude Code session (skills load at startup), then just ask — for example:
+
+```
+help me test this in-scope web app for IDOR
+```
+
+Claude should announce it's loading the **web-app-pentest** skill and ask you to confirm scope. If it
+does, you're set. You can also type `/` to see the bundled commands (`/recon`, `/validate`, `/report`,
+`/chain`, `/remember`, `/pickup`).
+
+### 4. (Optional) install the recon tools
+
+`/recon` chains these — install the ones you want; anything missing is skipped, not fatal:
+
+```bash
+# ProjectDiscovery + friends (needs Go):  https://go.dev/dl
+go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+go install github.com/projectdiscovery/httpx/cmd/httpx@latest
+go install github.com/projectdiscovery/katana/cmd/katana@latest
+go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
+go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
+go install github.com/lc/gau/v2/cmd/gau@latest
+# macOS: `brew install subfinder httpx katana nuclei dnsx` works too.
+```
+
+For the hosted JS-secret + dependency-confusion scan, export your key once:
+`export TRINETLAYER_API_KEY=gjs_xxx`.
+
+### Uninstall / update
+
+- **Remove:** `./install.sh --uninstall` (or `/plugin uninstall …` for Option B).
+- **Update:** `git pull` (if you used `--link`, you're already current) or `/plugin update …`.
+
+<details>
+<summary><b>Troubleshooting</b></summary>
+
+- **Skill doesn't load?** Restart Claude Code — skills are read at session start. Describe the *task*
+  ("test this API for BOLA"), not the skill name; auto-invocation matches on intent.
+- **`/recon` says a tool is missing?** That's fine — it skips it. Install the tools in step 4 for full
+  coverage.
+- **`ghostjs-scan` skips?** No `TRINETLAYER_API_KEY` set, or the key isn't Pro. It's optional — recon
+  still runs.
+- **Plugin vs script:** use **one** method. Installing both the script copy *and* the plugin duplicates
+  the skills.
+</details>
 
 ---
 
@@ -262,4 +329,10 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the details, [ROADMAP.md](ROADMAP.md)
 [MIT](LICENSE) © 2026 TrinetLayer. Provided for **authorized, lawful** security testing only, with no
 warranty. What you point it at is on you.
 
-<div align="center"><sub><code>break. test. learn.</code></sub></div>
+<div align="center">
+
+<img src="assets/logo.svg" alt="TrinetLayer" width="44">
+
+<sub><b>TrinetLayer</b> · <code>break. test. learn.</code></sub>
+
+</div>
