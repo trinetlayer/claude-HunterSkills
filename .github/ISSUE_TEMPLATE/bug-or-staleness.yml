@@ -1,0 +1,28 @@
+name: "Bug / staleness"
+description: Something is wrong, outdated, or broken (a stale payload, a dead command, a broken link).
+title: "[bug] <short summary>"
+labels: ["bug"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong?
+      description: What does it currently say/do, and why is that incorrect or out of date?
+      placeholder: e.g. "android-pentest CA-install step fails on Android 15 because…"
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: Where?
+      description: File and (if known) line — e.g. skills/android-pentest/SKILL.md
+    validations:
+      required: true
+  - type: textarea
+    id: fix
+    attributes:
+      label: Correct version (if you know it)
+      description: The up-to-date payload / command / wording, with a reference if possible.
+      render: shell
+    validations:
+      required: false

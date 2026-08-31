@@ -1,0 +1,44 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install xmllint
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+
+      - name: Validate SKILL.md frontmatter
+        run: |
+          set -e
+          fail=0
+          for f in skills/*/SKILL.md; do
+            if [ "$(head -1 "$f")" != "---" ]; then
+              echo "::error file=$f::missing YAML frontmatter (must start with '---')"; fail=1; continue
+            fi
+            name=$(awk '/^---$/{c++;next} c==1 && /^name:/{print substr($0,6);exit}' "$f" | tr -d ' ')
+            desc=$(awk '/^---$/{c++;next} c==1 && /^description:/{print;exit}' "$f")
+            dir=$(basename "$(dirname "$f")")
+            [ -z "$name" ] && { echo "::error file=$f::missing 'name:'"; fail=1; }
+            [ -z "$desc" ] && { echo "::error file=$f::missing 'description:'"; fail=1; }
+            [ -n "$name" ] && [ "$name" != "$dir" ] && echo "::warning file=$f::name '$name' != folder '$dir'"
+            grep -q "RULES.md" "$f" || echo "::warning file=$f::no reference to the shared RULES.md"
+            echo "ok: $f  (name=$name)"
+          done
+          exit $fail
+
+      - name: Validate SVG assets are well-formed
+        run: xmllint --noout assets/*.svg && echo "all SVGs valid"
+
+      - name: Sanity-check plugin manifests
+        run: |
+          python3 -c "import json,sys; json.load(open('.claude-plugin/plugin.json')); json.load(open('.claude-plugin/marketplace.json')); print('manifests: valid JSON')"

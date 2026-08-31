@@ -4,6 +4,7 @@
 
 <br>
 
+[![Validate](https://github.com/trinetlayer/claude-HunterSkills/actions/workflows/validate.yml/badge.svg)](https://github.com/trinetlayer/claude-HunterSkills/actions/workflows/validate.yml)
 [![License](https://img.shields.io/badge/license-MIT-6366F1?style=flat-square)](LICENSE)
 [![Skills](https://img.shields.io/badge/skills-7-22D3EE?style=flat-square)](#the-seven-skills)
 [![For](https://img.shields.io/badge/for-Claude%20Code-818CF8?style=flat-square)](https://claude.com/claude-code)
@@ -194,7 +195,10 @@ Part of the wider TrinetLayer world — *learn → hunt → test → automate �
 ## Contributing
 
 Issues and PRs welcome — new vuln-class coverage, tool/payload updates, platform report templates, and
-fixes. Keep the responsible-use framing and the shared rulebook intact.
+fixes. Accuracy over volume; keep the responsible-use framing and the shared rulebook intact. See
+**[CONTRIBUTING.md](CONTRIBUTING.md)** for the skill format and ground rules,
+**[SECURITY.md](SECURITY.md)** for responsible use, and **[CHANGELOG.md](CHANGELOG.md)** for release
+history.
 
 ## License
 

@@ -21,9 +21,11 @@
   <g stroke="url(#flow)" stroke-width="2.5" fill="none" opacity="0.8">
     <path d="M196 100 H224"/><path d="M396 100 H424"/><path d="M596 100 H624"/><path d="M796 100 H824"/>
   </g>
-  <g fill="#22D3EE" opacity="0.9">
-    <polygon points="224,94 236,100 224,106"/><polygon points="424,94 436,100 424,106"/>
-    <polygon points="624,94 636,100 624,106"/><polygon points="824,94 836,100 824,106"/>
+  <g fill="#22D3EE">
+    <polygon points="224,94 236,100 224,106" opacity="0.35"><animate attributeName="opacity" values="0.35;1;0.35" dur="2s" begin="0s" repeatCount="indefinite"/></polygon>
+    <polygon points="424,94 436,100 424,106" opacity="0.35"><animate attributeName="opacity" values="0.35;1;0.35" dur="2s" begin="0.4s" repeatCount="indefinite"/></polygon>
+    <polygon points="624,94 636,100 624,106" opacity="0.35"><animate attributeName="opacity" values="0.35;1;0.35" dur="2s" begin="0.8s" repeatCount="indefinite"/></polygon>
+    <polygon points="824,94 836,100 824,106" opacity="0.35"><animate attributeName="opacity" values="0.35;1;0.35" dur="2s" begin="1.2s" repeatCount="indefinite"/></polygon>
   </g>
 
   <!-- nodes -->
@@ -44,7 +46,9 @@
       <text x="512" y="119" text-anchor="middle" font-size="11" fill="#8B96A9" font-family="'JetBrains Mono',monospace">test high-impact</text>
     </g>
     <g>
-      <rect x="630" y="72" width="164" height="58" rx="12" fill="#101d33" stroke="#22D3EE" stroke-width="2"/>
+      <rect x="630" y="72" width="164" height="58" rx="12" fill="#101d33" stroke="#22D3EE" stroke-width="2">
+        <animate attributeName="stroke-opacity" values="1;0.45;1" dur="2.4s" repeatCount="indefinite"/>
+      </rect>
       <text x="712" y="100" text-anchor="middle" font-size="17" font-weight="700" fill="#EEF1F7">Prove</text>
       <text x="712" y="119" text-anchor="middle" font-size="11" fill="#67E8F9" font-family="'JetBrains Mono',monospace">climb the Ladder</text>
     </g>

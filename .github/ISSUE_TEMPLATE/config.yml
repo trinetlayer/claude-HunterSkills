@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a vulnerability in someone else's product
+    url: https://app.trinetlayer.com
+    about: Findings you discover in a third-party product go to that product's disclosure program — not here.
+  - name: Security issue in this repo (private)
+    url: https://github.com/trinetlayer/claude-HunterSkills/security/advisories/new
+    about: Report a security problem with the repository itself privately.
+  - name: Community & discussion
+    url: https://trinetlayer.discourse.group
+    about: Questions, ideas, and general discussion.

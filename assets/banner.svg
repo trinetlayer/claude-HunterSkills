@@ -29,6 +29,9 @@
   <rect width="1280" height="360" rx="16" fill="url(#ink)"/>
   <rect width="1280" height="360" rx="16" fill="url(#grid)"/>
   <rect width="1280" height="360" rx="16" fill="url(#spot)"/>
+  <rect x="0" width="1280" height="2" y="20" fill="#22D3EE" opacity="0.07">
+    <animate attributeName="y" values="24;336;24" dur="7s" repeatCount="indefinite"/>
+  </rect>
   <rect x="0.5" y="0.5" width="1279" height="359" rx="16" fill="none" stroke="#22D3EE" stroke-opacity="0.18"/>
 
   <!-- decorative radar target, right -->
@@ -39,9 +42,15 @@
     <line x1="1120" y1="52" x2="1120" y2="308"/>
     <line x1="992" y1="180" x2="1248" y2="180"/>
   </g>
+  <line x1="1120" y1="180" x2="1120" y2="66" stroke="#67E8F9" stroke-width="2.5" stroke-linecap="round" opacity="0.65">
+    <animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 1120 180" to="360 1120 180" dur="5s" repeatCount="indefinite"/>
+  </line>
   <circle cx="1120" cy="180" r="5" fill="#22D3EE" filter="url(#glow)"/>
 
   <!-- three-layer mark -->
+  <ellipse cx="150" cy="176" rx="130" ry="78" fill="#6366F1" opacity="0.12">
+    <animate attributeName="opacity" values="0.08;0.22;0.08" dur="3.2s" repeatCount="indefinite"/>
+  </ellipse>
   <g filter="url(#glow)">
     <polygon points="60,208 150,174 240,208 150,242" fill="#22D3EE" fill-opacity="0.92"/>
     <polygon points="60,174 150,140 240,174 150,208" fill="#818CF8" fill-opacity="0.95"/>

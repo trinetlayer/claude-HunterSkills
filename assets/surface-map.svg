@@ -23,7 +23,8 @@
   <text x="40" y="82" font-family="Inter,system-ui,sans-serif" font-size="26" font-weight="700" fill="#F5F7FA">One request → the right surface</text>
 
   <!-- connectors (drawn first, behind nodes) -->
-  <g stroke="url(#hub)" stroke-width="2" opacity="0.55" fill="none">
+  <g stroke="url(#hub)" stroke-width="2" opacity="0.6" fill="none" stroke-dasharray="7 7">
+    <animate attributeName="stroke-dashoffset" values="0;-28" dur="1.3s" repeatCount="indefinite"/>
     <path d="M500 260 C 360 260, 340 200, 300 200"/>
     <path d="M420 275 C 320 275, 300 275, 258 275"/>
     <path d="M500 290 C 360 300, 345 350, 300 350"/>
@@ -76,7 +77,9 @@
 
   <!-- center hub -->
   <g filter="url(#soft)">
-    <rect x="405" y="233" width="190" height="84" rx="16" fill="#0e1830" stroke="url(#hub)" stroke-width="2"/>
+    <rect x="405" y="233" width="190" height="84" rx="16" fill="#0e1830" stroke="url(#hub)" stroke-width="2">
+      <animate attributeName="stroke-opacity" values="1;0.5;1" dur="2.6s" repeatCount="indefinite"/>
+    </rect>
   </g>
   <text x="500" y="266" text-anchor="middle" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="12" letter-spacing="2" fill="#67E8F9">ORCHESTRATOR</text>
   <text x="500" y="290" text-anchor="middle" font-family="Inter,system-ui,sans-serif" font-size="15" font-weight="600" fill="#F5F7FA">confirms scope</text>

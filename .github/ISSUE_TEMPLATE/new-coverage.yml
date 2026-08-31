@@ -1,0 +1,50 @@
+name: "New coverage / technique"
+description: Suggest a vuln class, technique, tool, or payload a skill is missing.
+title: "[coverage] <skill>: <what's missing>"
+labels: ["coverage"]
+body:
+  - type: dropdown
+    id: skill
+    attributes:
+      label: Which skill?
+      options:
+        - bug-hunting-orchestrator
+        - web-app-pentest
+        - api-security-testing
+        - source-code-review
+        - android-pentest
+        - ios-pentest
+        - smart-contract-audit
+        - shared / RULES
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What should be added?
+      description: The vuln class / technique / tool / payload, and where it fits.
+      placeholder: e.g. "web-app-pentest is missing HTTP/2 CONTINUATION-flood request smuggling…"
+    validations:
+      required: true
+  - type: textarea
+    id: how
+    attributes:
+      label: How to test (payload / command)
+      description: A concrete, current example — the thing a hunter would actually run.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: ref
+    attributes:
+      label: Reference
+      description: CWE / OWASP / SWC / MASVS / advisory / write-up that backs it.
+    validations:
+      required: false
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Responsible use
+      options:
+        - label: This is for authorized/defensive testing and keeps the responsible-use framing intact.
+          required: true
