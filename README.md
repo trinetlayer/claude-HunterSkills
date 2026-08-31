@@ -245,34 +245,17 @@ Part of the wider TrinetLayer world — *learn → hunt → test → automate �
 
 ## Used by
 
-Built and used first by **<a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer">TrinetLayer</a>** as the Claude Code companion to
-its scanner and reporting platform. Using these skills yourself? Add your name — see
-**[ADOPTERS.md](ADOPTERS.md)** (real, verifiable entries only).
+TrinetLayer ships these as the Claude Code companion to its scanner and reporting. Using them too? Add
+yourself to [ADOPTERS.md](ADOPTERS.md).
 
 ## Contributing
 
-The whole value here is **accuracy + discipline** — a payload that actually lands, a false-positive that
-saves someone a closed report. Small, correct contributions beat big vague ones, and you don't need to
-be an expert to help.
+PRs welcome — a fresh payload, a fixed stale command, a new report template, or a false positive you
+caught. Keep changes small and cite the source (CWE / OWASP / SWC / MASVS), and keep the responsible-use
+framing and `RULES.md` intact. CI checks run on every PR.
 
-**Good first contributions** — pick a `help wanted` item from the **[Roadmap](ROADMAP.md)**, fix a stale
-payload/command, add a report template, or add a `references/` payload. **Found a false positive?** Open
-a [false-positive issue](.github/ISSUE_TEMPLATE/false-positive.yml) — that feedback is gold.
-
-**The flow:**
-
-1. **Fork** and branch (`git checkout -b coverage/http2-smuggling`).
-2. Make a **focused** change — one vuln class / fix per PR. Match the existing style (tight "how to test"
-   + a real payload/command) and cite the reference (CWE / OWASP / SWC / MASVS).
-3. **Run the checks CI runs:** `find assets -name '*.svg' | xargs xmllint --noout`, each `SKILL.md` keeps
-   valid `name:`/`description:` frontmatter and links the shared `RULES.md`, and `shellcheck scripts/*.sh`.
-   If you have the CLI, `claude plugin validate .` should pass.
-4. Open a PR (the template guides you). CI runs automatically; a green check speeds review.
-
-**Ground rules:** keep the authorization-gate / responsible-use framing and `skills/shared/RULES.md`
-intact; never add unauthorized-attack-only or detection-evasion content. Full details in
-**[CONTRIBUTING.md](CONTRIBUTING.md)** · responsible use in **[SECURITY.md](SECURITY.md)** · release
-history in **[CHANGELOG.md](CHANGELOG.md)**. By contributing you agree to the [MIT license](LICENSE).
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the details, [ROADMAP.md](ROADMAP.md) for what's wanted, and
+[SECURITY.md](SECURITY.md) for the ground rules.
 
 ## License
 
