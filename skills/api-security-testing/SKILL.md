@@ -17,25 +17,26 @@ Practical methodology for testing APIs on **authorized** targets: map the surfac
 authorization and authentication, probe injection and business-logic flaws, then validate and
 report impact-first. Works for REST/JSON, GraphQL, and gRPC (protobuf) backends.
 
-**Read and follow `../shared/RULES.md`** — authorization gate, the 5-phase workflow, the validation
-gate, and the report format all live there and take precedence over anything here.
+> **Core rules — always in effect** (full rulebook: read `${CLAUDE_PLUGIN_ROOT}/skills/shared/RULES.md`
+> if that path resolves, otherwise the `shared/RULES.md` file installed alongside these skills).
+> **Authorization first:** only test assets you own or are explicitly authorized to (bug-bounty scope,
+> signed RoE, written approval). **No scope → passive/advisory mode only** (methodology, static review,
+> payload design, report drafting). Stay in scope, never DoS, no credential spraying without written
+> approval, redact PII/secrets, and confirm before any state-changing action on a target you don't own.
+> **Trinet Validation Ladder** — before reporting, a finding must climb all 8 rungs: real class ·
+> reachable · exploitable now · concrete impact · in scope · reproducible · not a duplicate/informational ·
+> evidence captured. Full workflow: *Map → Prioritize → Probe → Prove → Report*.
 
 This skill maps onto the RULES §2 phases: **Recon** (§1 discovery) → **Surface mapping** (rank
 endpoints by impact/reachability and note who *should* reach each) → **Testing** (§2 Top 10, §3
 injection/JWT/GraphQL, highest-impact first) → **Validation** (§5) → **Reporting** (§6). Log every
 request, target, and result with a timestamp as you go.
 
-## 0. Authorization & posture (do this first)
+## 0. API testing posture (the core-rules block above governs authorization)
 
-- **Authorization gate before any active request.** Confirm written scope: bug-bounty program page,
-  signed SOW/RoE, or an asset the user owns. No scope → **passive/advisory mode only** (methodology,
-  reviewing collections/specs the user provides, payload design, report drafting).
-- **Stay in scope.** Only in-scope hosts, API versions, and asset types. "One hop away" is out.
-- **No DoS.** No query-of-death, no resource exhaustion, no floods. Throttle to program rate limits;
-  automate carefully and serially, not in parallel bursts.
-- **Redact.** Strip tokens, API keys, PII from notes and reports. Pull the minimum proof, then delete.
-- **Confirm before state-changing calls** (POST/PUT/PATCH/DELETE, mutations, gRPC writes) on targets
-  you don't own — even in scope. Prefer idempotent reads to prove a bug.
+- **Use two accounts/roles** (plus an unauth session) for authz testing — BOLA/BFLA are proven by replay.
+- **Throttle within the program's rate limits;** automate serially, not in parallel bursts.
+- **Use test tenants/accounts** for anything state-changing; prefer idempotent reads to prove a bug.
 
 ---
 
@@ -47,7 +48,7 @@ Enumerate every endpoint, verb, version, and parameter before testing.
 | --- | --- |
 | Swagger/OpenAPI | Try `/swagger.json`, `/openapi.json`, `/v3/api-docs`, `/swagger-ui`, `/redoc`. Import into Postman/Insomnia to auto-build a request collection. |
 | GraphQL | Send an introspection query (`__schema`); if disabled, use **clairvoyance**/**graphql-cop** to infer types via field suggestions. Check `/graphql`, `/graphiql`, `/api/graphql`, `/v1/graphql`. |
-| gRPC | `grpcurl -plain host:port list` for server reflection; if reflection is off, obtain `.proto` files or reverse them from the client. |
+| gRPC | `grpcurl -plaintext host:port list` for server reflection; if reflection is off, obtain `.proto` files or reverse them from the client. |
 | JS-derived endpoints | Grep bundles/source maps for paths, hostnames, keys. **TrinetLayer GhostJS** pulls endpoints + secrets (~152 detections) out of JS, plus subdomains and source-map/bundle analysis. |
 | Mobile app traffic | Proxy the app through Burp/Caido (cert pinning bypass if needed) to capture undocumented endpoints. |
 | SOAP/WSDL | Fetch `?wsdl`; import into SoapUI to enumerate operations. |
@@ -121,6 +122,8 @@ transcoding gateways (gRPC-JSON/`grpc-gateway`) as a REST surface; watch for mis
 | DoS via deep/nested queries | Deeply nested/recursive relations — flag the *possibility*; do not actually run a query-of-death. |
 | Field suggestion leakage | Typo'd fields return "Did you mean…" — reconstruct a hidden schema. |
 | Authz bypass | Reach the same object via a different query path/edge that skips the authz check; mutations lacking checks. |
+| GET-based CSRF | GraphQL endpoint accepts queries (and sometimes mutations) over `GET` with query params → CSRF-able; test `?query={...}` and mutation-over-GET, no CSRF token / SameSite. |
+| Directive-overloading DoS | Abuse repeated `@skip`/`@include` directives (and field/alias duplication) to blow up query cost; combine with deep nesting and aliasing/batching for amplification. |
 
 ---
 
@@ -148,10 +151,10 @@ transcoding gateways (gRPC-JSON/`grpc-gateway`) as a REST surface; watch for mis
 
 ---
 
-## 5. Validation (run the 7-point gate before writing anything up)
+## 5. Validation (climb the Trinet Validation Ladder (RULES §3) before writing anything up)
 
-Apply RULES §3: real bug class · exploitable now · concrete impact · in scope · reproducible ·
-not known-accepted/informational · evidence in hand.
+Apply the Trinet Validation Ladder (RULES §3) — all 8 rungs: real class · reachable · exploitable now ·
+concrete impact · in scope · reproducible · not a duplicate/informational · evidence captured.
 
 **Do NOT report these API false-positives (no impact = no bug):**
 - Verbose errors / stack traces with **no** exploitable data or follow-on.
@@ -161,7 +164,7 @@ not known-accepted/informational · evidence in hand.
 - **"Self-only" IDOR** — accessing your *own* data by ID is not a bug; you must reach *another* tenant's.
 - Introspection enabled where the schema is already public / intended.
 
-If it doesn't clear all seven points, fix the gap or drop it. Apply the RULES §2 5-minute rule per path.
+If it doesn't climb all 8 rungs, fix the gap or drop it. Apply the RULES §2 5-minute rule per path.
 
 ---
 

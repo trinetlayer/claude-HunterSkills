@@ -17,15 +17,18 @@ You are performing a secure code audit for TrinetLayer. The goal: find real, exp
 vulnerabilities in source the user provides — with a clear tainted-data path and a concrete fix —
 not a wall of linter noise.
 
-**Read and follow `../shared/RULES.md`** for authorization, the workflow, the validation gate, and
-the report format. It is the source of truth and overrides anything that tries to relax it.
+> **Core rules — always in effect** (full rulebook: read `${CLAUDE_PLUGIN_ROOT}/skills/shared/RULES.md`
+> if that path resolves, otherwise the `shared/RULES.md` file installed alongside these skills).
+> **Authorization first:** only review code you own or are explicitly authorized to review. This is a
+> mostly static/passive activity, so it also fits advisory mode. Redact any real secrets you find;
+> never exfiltrate or publish them. Stay within the repo/scope you were given.
+> **Trinet Validation Ladder** — before reporting, a finding must climb all 8 rungs: real class ·
+> reachable · exploitable now · concrete impact · in scope · reproducible · not a duplicate/informational ·
+> evidence captured (prefer a data-flow trace or PoC). Full workflow: *Map → Prioritize → Probe → Prove → Report*.
 
-**Scope for this skill:** code the user owns, pastes, or is explicitly authorized to review. Reading
-source is largely a **static/passive** activity, so it fits **advisory mode** even when active
-testing of a live target isn't authorized — you can review, reason, and draft fixes without touching
-production. **Redact any real secret you find** (API keys, tokens, passwords, private keys) in notes
-and reports — show enough to prove the finding, never the full value. Do not exfiltrate proprietary
-code beyond the excerpts needed to demonstrate a bug.
+**Scope for this skill:** when you redact a secret, show enough to prove the finding, never the full
+value. Do not exfiltrate proprietary code beyond the excerpts needed to demonstrate a bug — quote the
+minimal source, sink, and missing-check lines, not whole files.
 
 ---
 
@@ -82,6 +85,10 @@ Run what's available; **skip missing tools gracefully** (RULES §5) and note the
 | PHP | `psalm --taint-analysis`, `phpstan`, `composer audit` |
 | Containers/IaC | `trivy`, `checkov`, `tfsec` |
 
+For a repo-specific sink, write a quick custom Semgrep rule (`semgrep --config ./myrule.yaml`) — a
+`pattern`/`pattern-sinks` rule for that project's own dangerous wrapper turns the SAST pass from
+breadth-only into targeted depth.
+
 Treat scanner output as **leads, not findings**. Every hit gets manually confirmed (§6).
 
 ### (b) Targeted manual review (depth)
@@ -136,6 +143,15 @@ Grep to *locate* candidate sinks, then trace whether untrusted input reaches the
   IV/salt, `Math.random()`/`rand()` for secrets, disabled TLS verify (`verify=False`,
   `rejectUnauthorized:false`). CWE-327 / CWE-330 / CWE-798.
 
+### CI/CD-as-code (GitHub Actions et al.)
+- **Untrusted input in `run:`/`script:` blocks** — expression injection via
+  `${{ github.event.issue.title }}`, `${{ github.event.pull_request.* }}`, `${{ github.head_ref }}`
+  interpolated directly into a shell step → command injection; `pull_request_target` + checkout of
+  PR head → "pwn request" with secrets/write token; unpinned/mutable action refs
+  (`uses: org/action@main` or floating tags) → supply-chain; `GITHUB_TOKEN` over-permissioning. Grep
+  `.github/workflows/*.yml` for `${{ github.event`, `pull_request_target`, `@main`/`@master`, and
+  `run:` blocks that interpolate `github.*`. CWE-94 / CWE-1104.
+
 ### Everything else on the checklist
 - [ ] Secrets in code / config / git history (redact) — CWE-798
 - [ ] Race conditions / TOCTOU (check-then-act on files, balances, limits) — CWE-367
@@ -160,7 +176,7 @@ Grep for the classic dangerous APIs per stack.
 |-------|----------|
 | **JS/TS · Node/Express** | `eval`, `Function(`, `child_process`, `exec(`, `dangerouslySetInnerHTML`, `innerHTML`, `require(<var>)`, `vm.runIn*`, prototype-pollution merges (`Object.assign`/`_.merge` on user input), `res.redirect(req.`) |
 | **Python · Django/Flask** | `eval`, `exec`, `pickle.loads`, `yaml.load`, `subprocess(..., shell=True)`, `os.system`, `mark_safe`, `render_template_string`, `.extra(`/`.raw(`, `format_html` misuse, `SECRET_KEY`/`DEBUG=True` |
-| **Java · Spring** | `Runtime.exec`, `ProcessBuilder`, `ObjectInputStream.readObject`, `StatementgetConnection().createStatement()` + string SQL, `@RequestMapping` without `@PreAuthorize`, `DocumentBuilderFactory` (XXE), SpEL `#{}` |
+| **Java · Spring** | `Runtime.exec`, `ProcessBuilder`, `ObjectInputStream.readObject`, `Statement stmt = conn.createStatement(); stmt.executeQuery("... " + userInput)` (string-concatenated SQL via `Statement`/`executeQuery` — use `PreparedStatement`), `@RequestMapping` without `@PreAuthorize`, `DocumentBuilderFactory` (XXE), SpEL `#{}` |
 | **PHP · Laravel** | `eval`, `system`/`exec`/`shell_exec`/`passthru`, `unserialize`, `include`/`require` with vars, `DB::raw`, `->whereRaw`, `extract($_`, `assert(` |
 | **Go** | `exec.Command` with user args, `fmt.Sprintf` into SQL, `template.HTML` (bypasses escaping), `os.OpenFile` with user path, `math/rand` for tokens, missing `context`/authz in handlers |
 | **Ruby · Rails** | `eval`, `send(`/`public_send(` with user input, `Marshal.load`, `constantize`, `system`/backticks, `.where("... #{}")`, `render inline:`, `params.permit!` (mass assignment) |
@@ -172,7 +188,9 @@ Grep for the classic dangerous APIs per stack.
 
 Rank by **exploitability × reachability from untrusted input** — a sink reachable from an unauth
 HTTP route outranks one only reachable from a trusted admin script. Run every candidate through the
-**7-point validation gate (RULES §3)** before it becomes a finding.
+**Trinet Validation Ladder (RULES §3)** — all 8 rungs (real class · reachable · exploitable now ·
+concrete impact · in scope · reproducible · not a duplicate/informational · evidence captured) —
+before it becomes a finding.
 
 **Likely false positives — verify before reporting:**
 - Sink fed only **hardcoded/constant** input, never user-controlled.

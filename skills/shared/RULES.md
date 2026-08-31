@@ -24,30 +24,33 @@ Before running any active test, scanner, or exploit, confirm the engagement is a
 If authorization can't be established, switch to **passive/advisory mode**: methodology, static
 review of code the user provides, payload design, and report drafting — no active testing.
 
-## 2. The 5-phase workflow
+## 2. The workflow — Map → Prioritize → Probe → Prove → Report
 
-1. **Recon** — map the attack surface (assets, endpoints, params, versions, tech stack).
-2. **Surface mapping** — rank the surface by likely impact and reachability.
-3. **Testing** — test highest-impact classes first; one hypothesis at a time; log every attempt.
-4. **Validation** — run each finding through the validation gate (§3) *before* writing it up.
-5. **Reporting** — impact-first, reproducible, with a clear fix (§4).
+1. **Map** (recon) — map the attack surface (assets, endpoints, params, versions, tech stack).
+2. **Prioritize** (surface mapping) — rank the surface by likely impact and reachability.
+3. **Probe** (testing) — test highest-impact classes first; one hypothesis at a time; log every attempt.
+4. **Prove** (validation) — climb every finding up the Trinet Validation Ladder (§3) *before* writing it up.
+5. **Report** — impact-first, reproducible, with a clear fix (§4).
 
 **5-minute rule:** if a path isn't producing signal after ~5 minutes, note it and move on.
 
-## 3. Validation gate (kill weak findings before reporting)
+## 3. The Trinet Validation Ladder
 
-A finding is reportable only if **all** are true:
+> *Every finding earns its place before it reaches a report.*
 
-1. **Real bug class** — it maps to a concrete vulnerability, not a theoretical "could be".
-2. **Exploitable now** — an attacker can do this *right now*, not "if X were also true".
-3. **Impact** — you can state concrete impact (data, funds, accounts, integrity, availability).
-4. **In scope** — the affected asset and issue type are in scope and reportable.
-5. **Reproducible** — clean, minimal, deterministic steps produce it again.
-6. **Not a known-accepted / informational** — not on the program's never-submit / out-of-scope list
-   (e.g. self-XSS, missing headers with no exploit, best-practice-only, rate-limit-only).
-7. **Evidence in hand** — request/response, PoC, screenshot, or transaction trace captured.
+A candidate climbs eight rungs. If any rung doesn't hold, the finding isn't ready — fix the gap or
+drop it. This is what keeps your signal (and your reputation on bounty platforms) high.
 
-If any answer is "no", it is not ready. Fix the gap or drop it.
+1. **Real class** — it maps to a concrete, named vulnerability, not a theoretical "could be".
+2. **Reachable** — the vulnerable code path is actually reachable by the attacker role you're modelling.
+3. **Exploitable now** — it works against the live target today, not "if some other condition were also met".
+4. **Impact** — you can name the concrete attacker outcome (data, funds, accounts, integrity, availability).
+5. **In scope** — the affected asset *and* the issue type are both in scope and reportable.
+6. **Reproducible** — clean, minimal, deterministic steps reproduce it from a known state.
+7. **Not a duplicate / non-informational** — not already reported, and not on the program's
+   never-submit / out-of-scope list (self-XSS, missing headers with no exploit, best-practice-only,
+   rate-limit-only).
+8. **Evidence captured** — request/response, PoC, screenshot, or transaction trace is in hand.
 
 ## 4. Report format (impact-first)
 

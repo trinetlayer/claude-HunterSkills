@@ -38,9 +38,9 @@ You are responsible for staying within the law and your program's rules.
 | ⛓️ **smart-contract-audit** | Auditing Solidity / DeFi — reentrancy, oracle manipulation, access control, PoC in Foundry. |
 
 Every skill shares one rulebook — [`skills/shared/RULES.md`](skills/shared/RULES.md) — covering the
-authorization gate, the **5-phase workflow** (recon → surface mapping → testing → validation →
-reporting), a **7-point validation gate** that kills weak findings before you submit, and an
-**impact-first report format** with HackerOne / Bugcrowd / Intigriti / Immunefi templates.
+authorization gate, the **Map → Prioritize → Probe → Prove → Report** workflow, the **Trinet
+Validation Ladder** (an eight-rung climb every finding must pass before it earns a place in a report),
+and an **impact-first report format** with HackerOne / Bugcrowd / Intigriti / Immunefi templates.
 
 ---
 
@@ -90,14 +90,14 @@ You: "help me pentest this in-scope web app"
 bug-hunting-orchestrator  ──▶ confirms scope ──▶ routes to web-app-pentest (+ api-security-testing)
       │
       ▼
-5-phase workflow ─▶ 7-point validation gate ─▶ impact-first report
+Map ─▶ Prioritize ─▶ Probe ─▶ Prove (Trinet Validation Ladder) ─▶ impact-first report
 ```
 
 ## TrinetLayer accelerators (optional)
 
 The skills can lean on [TrinetLayer](https://app.trinetlayer.com)'s own tooling where it helps:
 
-- **GhostJS** — JavaScript recon + secret scanning (~152 detections, subdomain enumeration).
+- **GhostJS** — JavaScript recon + secret scanning (subdomain enumeration, source-map/bundle analysis).
 - **Dependency Confusion** engine — npm dependency-confusion detection during code review & recon.
 - **REST API** (`/api/v1`, Pro) — automate scans from a workflow.
 - **VAPT PDF reports** — export validated findings.

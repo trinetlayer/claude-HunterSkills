@@ -33,7 +33,7 @@ payload design, report drafting) and won't run active tests.
 1. **Scope** — you paste the program scope / RoE / repo. Claude confirms boundaries.
 2. **Recon** — Claude maps the surface (subdomains, endpoints, params, tech, or contracts/roles).
 3. **Testing** — highest-impact classes first, one hypothesis at a time, every attempt logged.
-4. **Validation** — each candidate runs the 7-point gate; weak/informational findings are dropped.
+4. **Validation** — each candidate climbs the Trinet Validation Ladder; weak/informational findings are dropped.
 5. **Chaining** — Claude looks for bug chains worth more than the sum of parts.
 6. **Report** — impact-first write-up with steps, PoC, impact, fix, and references — formatted for
    your target platform, optionally exported as a TrinetLayer VAPT PDF.
@@ -47,8 +47,8 @@ payload design, report drafting) and won't run active tests.
   so it can prove cross-tenant access.
 - **Keep a running note.** Ask Claude to maintain an engagement note so long/resumed hunts keep
   context (targets, surface map, tried/failed paths, confirmed findings).
-- **Validate before you submit.** The whole point of the gate is to protect your signal/reputation on
-  bounty platforms — let it kill the weak stuff.
+- **Validate before you submit.** The whole point of the Ladder is to protect your signal/reputation
+  on bounty platforms — let it drop the weak stuff before it reaches a report.
 
 ## Combine with TrinetLayer
 

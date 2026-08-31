@@ -18,21 +18,27 @@ Practical methodology for auditing **authorized** EVM smart contracts: orient th
 invariants, run static + symbolic + fuzz tooling, hunt the on-chain vulnerability classes, then prove
 each finding with a Foundry fork-test PoC and report it impact-first with funds at risk quantified.
 
-**Read and follow `../shared/RULES.md`** — the authorization gate, the 5-phase workflow, the
-validation gate, and the impact-first report format live there and take precedence over anything here.
+> **Core rules — always in effect** (full rulebook: read `${CLAUDE_PLUGIN_ROOT}/skills/shared/RULES.md`
+> if that path resolves, otherwise the `shared/RULES.md` file installed alongside these skills).
+> **Authorization first:** audit only protocols you own or are explicitly authorized to (your own code,
+> Immunefi/Code4rena/Sherlock scope, client audit). Reviewing source is static/passive and fits
+> advisory mode. **Any on-chain interaction beyond read-only calls must be on a LOCAL FORK or TESTNET**
+> unless you own the protocol or a live PoC is explicitly in the program's scope — never run an exploit
+> against live mainnet contracts or real users. Redact any private keys.
+> **Trinet Validation Ladder** — before reporting, a finding must climb all 8 rungs: real class ·
+> reachable · exploitable now · concrete impact (funds at risk) · in scope · reproducible (fork-test PoC) ·
+> not a duplicate/informational · evidence captured. Full workflow: *Map → Prioritize → Probe → Prove → Report*.
 
-**Posture.** Reading and reasoning about contract source is **static/passive** — it fits RULES
-advisory mode, so you can review any code the user provides. But any **on-chain interaction beyond
-read-only `eth_call`/`cast call`** must run on a **local fork (anvil) or testnet** — never fire a
-state-changing tx or exploit against **live mainnet contracts or real users**. The only exception is
-a live PoC explicitly permitted by an Immunefi program's PoC-on-mainnet rules, and even then prefer a
-fork. **Redact any private keys, mnemonics, or RPC keys** from notes, PoCs, and reports; never commit
-them. Confirm scope in writing (your own protocol, an Immunefi/Code4rena/Sherlock contest scope, or a
-signed client audit) before treating anything as authorized.
+**Posture (smart-contract specifics).** Beyond the core rules above: any **on-chain interaction beyond
+read-only `eth_call`/`cast call`** runs on a **local fork (anvil) or testnet** — the only exception is a
+live PoC explicitly permitted by an Immunefi program's PoC-on-mainnet rules, and even then prefer a fork.
+Work **invariants-first**: know what must always hold (§1) before hunting the path that breaks it, and
+prove every finding with a fork-test PoC (§5).
 
 This maps onto RULES §2: **Recon** = orient the protocol (§1) → **Surface mapping** = rank contracts
 by funds-at-risk and reachability → **Testing** = tooling (§2) + vuln hunt (§3) → **Validation** =
-PoC + 7-point gate (§5) → **Reporting** (§6). Log every contract, address, and finding as you go.
+PoC + Trinet Validation Ladder (RULES §3) (§5) → **Reporting** (§6). Log every contract, address, and
+finding as you go.
 
 ---
 
@@ -111,7 +117,9 @@ function withdraw() external {
 ```
 Test: any `.call`/`transfer`/ERC777/ERC721 `safeTransfer` before a state write. Check CEI
 (checks-effects-interactions) and `nonReentrant`. Read-only: does an external protocol read a price/
-balance that's inconsistent during your callback? PoC: attacker contract with a re-entering `receive()`.
+balance that's inconsistent during your callback? E.g. a `get_virtual_price()` (Curve/Balancer-style)
+read mid-callback returns a manipulated value that a consuming protocol trusts. PoC: attacker contract
+with a re-entering `receive()`.
 
 ### Access control
 Missing/incorrect modifier, unprotected `initialize()`, `tx.origin` auth, default (public) visibility.
@@ -146,7 +154,9 @@ and 18-vs-6-decimal mismatches. Fuzz with tiny/huge amounts to surface truncatio
 Attacker mints 1 wei of shares, then donates assets directly to the vault to inflate share price so
 the next depositor's shares round to 0 and their deposit is stolen.
 Test: does the vault use virtual shares/assets or a dead-shares mint, or seed initial liquidity? PoC:
-deposit 1 wei → `token.transfer(vault, X)` → victim deposits → victim gets 0 shares.
+deposit 1 wei → `token.transfer(vault, X)` → victim deposits → victim gets 0 shares. Fix: OpenZeppelin's
+ERC4626 **decimals-offset / virtual shares & assets** (virtual offset) defense, plus a minimum initial
+deposit / dead-shares mint at first deposit.
 
 ### Flash-loan-enabled manipulation
 Not a bug alone, but the amplifier: cheap, atomic capital breaks any single-block price/vote/collateral
@@ -179,6 +189,20 @@ address signer = ecrecover(hash, v, r, s);   // no address(0) check → forgeabl
 ```
 Test: nonce + `block.chainid` in the signed struct; `s` in lower half-order; verify EIP-712 domain;
 reject `signer == address(0)`; sigs not reusable across chains/contracts.
+
+### L2 sequencer uptime (Arbitrum / Optimism / Base)
+On an L2, a Chainlink price read must first check the **sequencer-uptime feed** (and a grace period)
+before trusting `latestRoundData()`; skipping it lets **stale prices** be used during sequencer
+downtime. Test: does the consumer read `sequencerUptimeFeed.latestRoundData()` and
+`require(answer == 0)` (sequencer up) and `require(block.timestamp - startedAt > GRACE_PERIOD)` before
+using any price? Absence on an L2 deployment is a finding.
+
+### Cross-chain / signature replay
+Signatures or governance messages valid on one chain replayed on another (or messages accepted from an
+untrusted source). Test: is `block.chainid` (or the EIP-712 domain separator's `chainId`) bound into
+the signed payload so a signature can't be replayed cross-chain? For bridges/messaging
+(LayerZero/CCIP/native), inspect the trust model — source-chain/sender authentication, replay
+protection, and whether an unauthorized message can be forged or reused.
 
 ### Front-running / MEV & sandwich
 Missing slippage bounds, unprotected `approve` race, commit-reveal absent, predictable outcomes.
@@ -249,8 +273,30 @@ function testExploit() public {
 ```
 Keep it minimal and deterministic (pinned block/RPC, redacted keys). Run everything on the fork/testnet.
 
-**Apply the 7-point gate (RULES §3)** before writing anything up: real bug class · exploitable now ·
-concrete impact · in scope · reproducible · not known-accepted/informational · evidence in hand.
+**Invariant testing (Foundry).** A handler bounds actor actions and tracks a ghost variable; the test
+wires the handler as the fuzz target and asserts a protocol invariant across random call sequences:
+```solidity
+contract Handler is Test {
+    Vault vault; uint256 public ghost_deposited;   // ghost: expected state
+    function deposit(uint256 amt) external {
+        amt = bound(amt, 1, 1e24);                  // bound the actor's action
+        vault.deposit(amt, address(this));
+        ghost_deposited += amt;
+    }
+}
+contract VaultInvariant is Test {
+    Handler handler;
+    function setUp() public { handler = new Handler(); targetContract(address(handler)); }
+    // targetSelector to restrict to chosen fns; here all public handler fns are fuzzed
+    function invariant_solvency() public view {
+        assertGe(vault.totalAssets(), vault.totalLiabilities());   // must always hold
+    }
+}
+```
+
+**Apply the Trinet Validation Ladder (RULES §3)** before writing anything up — all 8 rungs: real bug
+class · reachable · exploitable now · concrete impact (funds at risk) · in scope · reproducible
+(fork-test PoC) · not a duplicate/known-accepted/informational · evidence captured.
 
 **Web3 false-positives & low-severity to weigh (don't inflate):**
 - **Centralization already disclosed** as an accepted trust assumption (admin can pause/upgrade and
@@ -286,6 +332,8 @@ Use the **impact-first** report format from RULES §4, audit-flavored:
   `_disableInitializers()`; `SafeERC20`; nonce+chainid in the signed struct), not "validate input".
 - **References** — the **SWC** id (e.g. SWC-107 reentrancy, SWC-115 tx.origin, SWC-101 overflow,
   SWC-112 delegatecall, SWC-121 sig replay) **and** the CWE (CWE-841, CWE-284, CWE-682, CWE-190).
+  The SWC Registry is legacy/frozen (unmaintained since ~2020) — cite it for shared vocabulary, but
+  contests use their own severity taxonomy (Immunefi/C4/Sherlock).
 
 Match the destination's format: **Immunefi** (severity + PoC-on-fork + impact-in-funds), **Code4rena**
 (per-finding markdown, QA/gas reports separate), **Sherlock** (Med/High only, strict duplicate rules,
