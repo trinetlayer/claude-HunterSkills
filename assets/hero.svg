@@ -15,10 +15,10 @@
     <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
-    <linearGradient id="lblue" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3B82F6"/><stop offset="1" stop-color="#1D4ED8"/></linearGradient>
-    <linearGradient id="lgold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FBBF24"/><stop offset="1" stop-color="#F59E0B"/></linearGradient>
-    <linearGradient id="lrim" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#60A5FA"/><stop offset="1" stop-color="#F59E0B"/></linearGradient>
-    <clipPath id="lshield"><path d="M100 16 L34 40 C30 41 27 44 27 49 L27 116 C27 159 62 189 100 206 C138 189 173 159 173 116 L173 49 C173 44 170 41 166 40 Z"/></clipPath>
+    <linearGradient id="lblue" x1="0.15" y1="0.05" x2="0.8" y2="1"><stop offset="0" stop-color="#4C93F7"/><stop offset="0.55" stop-color="#2F6BEA"/><stop offset="1" stop-color="#1E52D6"/></linearGradient>
+    <linearGradient id="lgold" x1="0.1" y1="0" x2="0.9" y2="1"><stop offset="0" stop-color="#FCD34D"/><stop offset="1" stop-color="#F0A81E"/></linearGradient>
+    <linearGradient id="lrim" x1="0" y1="0" x2="1" y2="0.15"><stop offset="0" stop-color="#3B7BEF"/><stop offset="0.5" stop-color="#4C93F7"/><stop offset="0.62" stop-color="#F6C24A"/><stop offset="1" stop-color="#EDA017"/></linearGradient>
+    <clipPath id="lshield"><path d="M100 14 L36 38 C31 40 28 43 28 49 L28 116 C28 160 63 191 100 208 C137 191 172 160 172 116 L172 49 C172 43 169 40 164 38 Z"/></clipPath>
   </defs>
 
   <rect width="1280" height="600" rx="18" fill="url(#ink)"/>
@@ -43,10 +43,12 @@
   <g transform="translate(53,118) scale(0.96)">
     <g clip-path="url(#lshield)">
       <rect x="0" y="0" width="200" height="220" fill="url(#lblue)"/>
-      <polygon points="150,-10 210,-10 210,230 66,230" fill="url(#lgold)"/>
+      <path d="M103 44 Q101 40 106 39 L160 51 Q167 53 167 60 L167 104 Q167 111 160 110 L112 100 Q104 98 104 90 Z" fill="url(#lgold)"/>
+      <path d="M172 60 L172 116 C172 150 152 176 126 192 L120 150 L150 118 Z" fill="url(#lgold)" opacity="0.9"/>
     </g>
-    <path d="M100 16 L34 40 C30 41 27 44 27 49 L27 116 C27 159 62 189 100 206 C138 189 173 159 173 116 L173 49 C173 44 170 41 166 40 Z" fill="none" stroke="url(#lrim)" stroke-width="5" stroke-opacity="0.9"/>
-    <polygon points="110,58 70,120 97,120 88,172 132,102 104,102" fill="#FFFFFF" stroke="#E8EEF9" stroke-width="1"/>
+    <path d="M100 14 L36 38 C31 40 28 43 28 49 L28 116 C28 160 63 191 100 208 C137 191 172 160 172 116 L172 49 C172 43 169 40 164 38 Z" fill="none" stroke="url(#lrim)" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M100 15 L100 42" stroke="#1B48C4" stroke-width="2" stroke-opacity="0.5" stroke-linecap="round"/>
+    <polygon points="112,56 71,120 96,120 86,176 131,104 104,104" fill="#FFFFFF"/>
   </g>
 
   <!-- headline -->

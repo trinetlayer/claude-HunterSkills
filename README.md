@@ -148,103 +148,61 @@ are right below.
 
 ## Install
 
-New to Claude Code? This takes about **two minutes**. Pick one install method, restart Claude, and
-start describing your task — the right skill loads itself.
+Two minutes. Install once, restart Claude, then just describe your task — the right skill loads itself.
 
-### 1. Prerequisites
-
-| Need | Why | Get it |
-|------|-----|--------|
-| **Claude Code** | These are Claude Code skills. | <a href="https://claude.com/claude-code" target="_blank" rel="noopener noreferrer">claude.com/claude-code</a> |
-| **git** | To clone the repo (Option A/C). | `git --version` — preinstalled on most systems |
-| Recon tools *(optional)* | Make `/recon` actually run. | see [step 4](#4-optional-install-the-recon-tools) — skills work without them |
-| TrinetLayer API key *(optional)* | Enables the hosted GhostJS scan. | Pro key at <a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer">app.trinetlayer.com</a> |
-
-### 2. Install the skills — pick one
+**Prereqs:** [Claude Code](https://claude.com/claude-code) + `git`. Recon tools and a TrinetLayer API key are optional (see the drawers below) — skills work without them.
 
 <details open>
-<summary><b>Option A — installer script</b> (personal, global — recommended for most people)</summary>
-
-Installs all 9 skills into `~/.claude/skills/` so they're available in **every** Claude Code session.
+<summary><b>A · Installer script</b> — global, recommended</summary>
 
 ```bash
 git clone https://github.com/trinetlayer/claude-HunterSkills.git
 cd claude-HunterSkills
-./install.sh            # copy the skills into ~/.claude/skills
-# or:
-./install.sh --link     # symlink instead — `git pull` then auto-updates you to the latest
+./install.sh          # into ~/.claude/skills  (use --link to auto-update on git pull)
 ```
 </details>
 
 <details>
-<summary><b>Option B — Claude Code plugin marketplace</b> (no clone, updates via the plugin manager)</summary>
-
-Run these **inside** Claude Code (they're slash commands, not shell):
+<summary><b>B · Plugin marketplace</b> — run inside Claude Code</summary>
 
 ```
 /plugin marketplace add trinetlayer/claude-HunterSkills
 /plugin install trinetlayer-bug-hunting@trinetlayer
 ```
-
-Update later with `/plugin update trinetlayer-bug-hunting`.
 </details>
 
 <details>
-<summary><b>Option C — project-scoped</b> (only inside one engagement folder)</summary>
-
-Installs into `<project>/.claude/skills/` — handy to keep a client engagement self-contained.
+<summary><b>C · Project-scoped</b> — one engagement only</summary>
 
 ```bash
-./install.sh --project /path/to/your/engagement
+./install.sh --project /path/to/engagement   # into <project>/.claude/skills
 ```
 </details>
 
-### 3. Verify it worked
+**Verify:** start a fresh session and say *"help me test this in-scope web app for IDOR"* — Claude should load **web-app-pentest** and ask for scope. Type `/` to see the commands. Remove with `./install.sh --uninstall`.
 
-Start a **fresh** Claude Code session (skills load at startup), then just ask — for example:
+<details>
+<summary><b>Optional — recon tools & API key</b></summary>
 
-```
-help me test this in-scope web app for IDOR
-```
-
-Claude should announce it's loading the **web-app-pentest** skill and ask you to confirm scope. If it
-does, you're set. You can also type `/` to see the bundled commands (`/recon`, `/validate`, `/report`,
-`/chain`, `/remember`, `/pickup`).
-
-### 4. (Optional) install the recon tools
-
-`/recon` chains these — install the ones you want; anything missing is skipped, not fatal:
+`/recon` chains these; missing ones are skipped:
 
 ```bash
-# ProjectDiscovery + friends (needs Go):  https://go.dev/dl
 go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
 go install github.com/projectdiscovery/httpx/cmd/httpx@latest
 go install github.com/projectdiscovery/katana/cmd/katana@latest
 go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
-go install github.com/projectdiscovery/dnsx/cmd/dnsx@latest
-go install github.com/lc/gau/v2/cmd/gau@latest
-# macOS: `brew install subfinder httpx katana nuclei dnsx` works too.
+go install github.com/lc/gau/v2/cmd/gau@latest   # + dnsx  ·  macOS: brew install them
 ```
 
-For the hosted JS-secret + dependency-confusion scan, export your key once:
-`export TRINETLAYER_API_KEY=gjs_xxx`.
-
-### Uninstall / update
-
-- **Remove:** `./install.sh --uninstall` (or `/plugin uninstall …` for Option B).
-- **Update:** `git pull` (if you used `--link`, you're already current) or `/plugin update …`.
+For the hosted GhostJS scan: `export TRINETLAYER_API_KEY=gjs_xxx` (Pro key from app.trinetlayer.com).
+</details>
 
 <details>
 <summary><b>Troubleshooting</b></summary>
 
-- **Skill doesn't load?** Restart Claude Code — skills are read at session start. Describe the *task*
-  ("test this API for BOLA"), not the skill name; auto-invocation matches on intent.
-- **`/recon` says a tool is missing?** That's fine — it skips it. Install the tools in step 4 for full
-  coverage.
-- **`ghostjs-scan` skips?** No `TRINETLAYER_API_KEY` set, or the key isn't Pro. It's optional — recon
-  still runs.
-- **Plugin vs script:** use **one** method. Installing both the script copy *and* the plugin duplicates
-  the skills.
+- **Skill won't load?** Restart Claude Code (skills load at startup); describe the *task*, not the skill name.
+- **`/recon` skips a tool?** Install it above — nothing is mandatory.
+- **Don't do both** the script *and* the plugin — that double-installs the skills.
 </details>
 
 ---
@@ -298,7 +256,11 @@ Optional — the skills work fully on their own, but they'll lean on TrinetLayer
 
 ## Ecosystem
 
-Part of the wider TrinetLayer world — *learn → hunt → test → automate → challenge*:
+<div align="center">
+<img src="assets/ecosystem.svg" alt="The TrinetLayer ecosystem: learn → hunt → test → automate → challenge" width="100%">
+</div>
+
+Part of the wider TrinetLayer world — these skills are the **automate** layer. Explore the rest:
 
 <a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer"><b>App</b></a> ·
 <a href="https://learn.trinetlayer.com" target="_blank" rel="noopener noreferrer"><b>Learn</b></a> ·

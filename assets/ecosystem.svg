@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 320" width="1040" height="320" role="img" aria-label="The TrinetLayer ecosystem: learn, hunt, test, automate, challenge">
+  <defs>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0e1729"/><stop offset="1" stop-color="#0b1220"/></linearGradient>
+    <linearGradient id="flow" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#6366F1"/><stop offset="1" stop-color="#22D3EE"/></linearGradient>
+    <pattern id="grid" width="34" height="34" patternUnits="userSpaceOnUse"><path d="M34 0H0V34" fill="none" stroke="#6366F1" stroke-opacity="0.06" stroke-width="1"/></pattern>
+  </defs>
+
+  <rect width="1040" height="320" rx="16" fill="url(#ink)"/>
+  <rect width="1040" height="320" rx="16" fill="url(#grid)"/>
+  <rect x="0.5" y="0.5" width="1039" height="319" rx="16" fill="none" stroke="#22D3EE" stroke-opacity="0.14"/>
+
+  <text x="40" y="52" font-family="'JetBrains Mono',ui-monospace,monospace" font-size="13" letter-spacing="3" fill="#67E8F9">TRINETLAYER ECOSYSTEM</text>
+  <text x="40" y="82" font-family="Inter,system-ui,sans-serif" font-size="24" font-weight="700" fill="#F5F7FA">learn → hunt → test → automate → challenge</text>
+
+  <!-- flowing connector behind nodes -->
+  <line x1="118" y1="200" x2="922" y2="200" stroke="url(#flow)" stroke-width="2.5" stroke-dasharray="8 8" opacity="0.6">
+    <animate attributeName="stroke-dashoffset" values="0;-32" dur="1.4s" repeatCount="indefinite"/>
+  </line>
+
+  <!-- stage eyebrows -->
+  <g font-family="'JetBrains Mono',ui-monospace,monospace" font-size="11" letter-spacing="2" fill="#67E8F9" text-anchor="middle">
+    <text x="118" y="150">LEARN</text><text x="319" y="150">HUNT</text><text x="520" y="150">TEST</text><text x="721" y="150">AUTOMATE</text><text x="922" y="150">CHALLENGE</text>
+  </g>
+
+  <!-- nodes -->
+  <g font-family="Inter,system-ui,sans-serif" text-anchor="middle">
+    <g>
+      <rect x="42" y="164" width="152" height="72" rx="13" fill="#131c30" stroke="#6366F1" stroke-opacity="0.6"/>
+      <circle cx="70" cy="200" r="5" fill="#818CF8"/>
+      <text x="126" y="196" font-size="16" font-weight="700" fill="#EEF1F7">Learn</text>
+      <text x="126" y="216" font-size="11" fill="#8B96A9" font-family="'JetBrains Mono',monospace">academy</text>
+    </g>
+    <g>
+      <rect x="243" y="164" width="152" height="72" rx="13" fill="#131c30" stroke="#6366F1" stroke-opacity="0.6"/>
+      <circle cx="271" cy="200" r="5" fill="#818CF8"/>
+      <text x="327" y="196" font-size="16" font-weight="700" fill="#EEF1F7">GhostJS</text>
+      <text x="327" y="216" font-size="11" fill="#8B96A9" font-family="'JetBrains Mono',monospace">app · scan</text>
+    </g>
+    <g>
+      <rect x="444" y="164" width="152" height="72" rx="13" fill="#131c30" stroke="#22D3EE" stroke-opacity="0.6"/>
+      <circle cx="472" cy="200" r="5" fill="#22D3EE"/>
+      <text x="528" y="196" font-size="16" font-weight="700" fill="#EEF1F7">Validator</text>
+      <text x="528" y="216" font-size="11" fill="#8B96A9" font-family="'JetBrains Mono',monospace">verify</text>
+    </g>
+    <g>
+      <rect x="645" y="162" width="152" height="76" rx="13" fill="#0e2233" stroke="#34D399" stroke-width="1.6"/>
+      <circle cx="673" cy="200" r="5" fill="#34D399"/>
+      <text x="729" y="195" font-size="16" font-weight="700" fill="#EEF1F7">these skills</text>
+      <text x="729" y="215" font-size="11" fill="#8FE9C8" font-family="'JetBrains Mono',monospace">Claude Code</text>
+    </g>
+    <g>
+      <rect x="846" y="164" width="152" height="72" rx="13" fill="#131c30" stroke="#22D3EE" stroke-opacity="0.6"/>
+      <circle cx="874" cy="200" r="5" fill="#67E8F9"/>
+      <text x="930" y="196" font-size="16" font-weight="700" fill="#EEF1F7">Community</text>
+      <text x="930" y="216" font-size="11" fill="#8B96A9" font-family="'JetBrains Mono',monospace">hub · forum</text>
+    </g>
+  </g>
+
+  <text x="520" y="288" text-anchor="middle" font-family="'JetBrains Mono',monospace" font-size="12" fill="#5f6b80">one workspace — map your attack surface before they do · app.trinetlayer.com</text>
+</svg>
