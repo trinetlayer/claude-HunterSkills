@@ -174,7 +174,7 @@ are right below.
 
 Two minutes. Install once, restart Claude, then just describe your task — the right skill loads itself.
 
-**Prereqs:** [Claude Code](https://claude.com/claude-code) + `git`. Recon tools and a TrinetLayer API key are optional (see the drawers below) — skills work without them.
+**Prereqs:** [Claude Code](https://claude.com/claude-code) + `git`. Recon tools and a TrinetLayer API key are optional — the skills work without them.
 
 <details open>
 <summary><b>A · Installer script</b> — global, recommended</summary>
@@ -204,22 +204,6 @@ cd claude-HunterSkills
 </details>
 
 **Verify:** start a fresh session and say *"help me test this in-scope web app for IDOR"* — Claude should load **web-app-pentest** and ask for scope. Type `/` to see the commands. Remove with `./install.sh --uninstall`.
-
-<details>
-<summary><b>Optional — recon tools & API key</b></summary>
-
-`/recon` chains these; missing ones are skipped:
-
-```bash
-go install github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
-go install github.com/projectdiscovery/httpx/cmd/httpx@latest
-go install github.com/projectdiscovery/katana/cmd/katana@latest
-go install github.com/projectdiscovery/nuclei/v3/cmd/nuclei@latest
-go install github.com/lc/gau/v2/cmd/gau@latest   # + dnsx  ·  macOS: brew install them
-```
-
-For the hosted GhostJS scan: `export TRINETLAYER_API_KEY=gjs_xxx` (Pro key from app.trinetlayer.com).
-</details>
 
 <details>
 <summary><b>Troubleshooting</b></summary>
