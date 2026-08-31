@@ -54,13 +54,13 @@ the right skill brings the discipline.
 
 | | Skill | Reach for it when… | Signature classes |
 |---|---|---|---|
-| 🧭 | **bug-hunting-orchestrator** | You're starting out, or not sure which skill fits | Scope check · routing · methodology |
-| 🌐 | **web-app-pentest** | Testing a website, SPA, dashboard or login flow | IDOR/BOLA · XSS · SSRF (IMDSv2) · SQLi · SSTI · auth & logic · chains |
-| 🔌 | **api-security-testing** | Testing REST / GraphQL / gRPC | OWASP API Top 10 · BOLA/BFLA · JWT · mass assignment · GraphQL DoS |
-| 🔎 | **source-code-review** | Auditing a repo, PR or diff | source→sink SAST · secrets · dependency confusion · CI/CD injection · crypto misuse |
-| 🤖 | **android-pentest** | Testing an Android app / APK | MASVS · exported components · insecure storage · Flutter/RN traffic · pinning bypass |
-| 🍎 | **ios-pentest** | Testing an iOS app / IPA | Keychain · ATS · URL schemes · WebView bridges · TrollStore · pinning bypass |
-| ⛓️ | **smart-contract-audit** | Auditing Solidity / DeFi | reentrancy · oracle manipulation · access control · L2/cross-chain · Foundry PoC |
+| <img src="assets/icons/orchestrator.svg" width="24" alt=""> | **bug-hunting-orchestrator** | You're starting out, or not sure which skill fits | Scope check · routing · methodology |
+| <img src="assets/icons/web.svg" width="24" alt=""> | **web-app-pentest** | Testing a website, SPA, dashboard or login flow | IDOR/BOLA · XSS · SSRF (IMDSv2) · SQLi · SSTI · auth & logic · chains |
+| <img src="assets/icons/api.svg" width="24" alt=""> | **api-security-testing** | Testing REST / GraphQL / gRPC | OWASP API Top 10 · BOLA/BFLA · JWT · mass assignment · GraphQL DoS |
+| <img src="assets/icons/source.svg" width="24" alt=""> | **source-code-review** | Auditing a repo, PR or diff | source→sink SAST · secrets · dependency confusion · CI/CD injection · crypto misuse |
+| <img src="assets/icons/android.svg" width="24" alt=""> | **android-pentest** | Testing an Android app / APK | MASVS · exported components · insecure storage · Flutter/RN traffic · pinning bypass |
+| <img src="assets/icons/ios.svg" width="24" alt=""> | **ios-pentest** | Testing an iOS app / IPA | Keychain · ATS · URL schemes · WebView bridges · TrollStore · pinning bypass |
+| <img src="assets/icons/contract.svg" width="24" alt=""> | **smart-contract-audit** | Auditing Solidity / DeFi | reentrancy · oracle manipulation · access control · L2/cross-chain · Foundry PoC |
 
 Roughly **36 vulnerability classes** across Web2, mobile and Web3 — each with how-to-test steps,
 payload/command-level detail, and a never-submit list. All seven share one rulebook
@@ -70,7 +70,7 @@ payload/command-level detail, and a never-submit list. All seven share one ruleb
 
 ## Authorized use only
 
-⚠️ These skills are for security work you're **allowed** to do: your own assets, in-scope bug-bounty
+<img src="assets/icons/shield.svg" width="18" align="top" alt="!"> These skills are for security work you're **allowed** to do: your own assets, in-scope bug-bounty
 programs, and signed penetration tests. Every skill opens with an **authorization gate** and enforces
 the shared rules — no out-of-scope targets, no DoS, no credential spraying without written approval,
 minimal handling of real data.
@@ -96,6 +96,25 @@ matching skill loads its recon steps, checklists, payloads and reporting format 
 <div align="center">
 <img src="assets/terminal.svg" alt="A Claude Code session using web-app-pentest to confirm and validate a BOLA finding" width="94%">
 </div>
+
+---
+
+## Set up in one message
+
+New to Claude Code, or want the whole hunting environment (skills **plus** the recommended tooling)
+configured for you? Don't wire it up by hand — hand Claude the guide and let it drive.
+
+Paste this into Claude Code:
+
+```text
+Read https://trinetlayer.com/blogs/claude-code-setup-for-bug-hunters
+and set up my Claude Code bug-hunting environment — install the TrinetLayer
+skills and walk me through the rest.
+```
+
+Claude reads TrinetLayer's **[Claude Code setup guide for bug hunters](https://trinetlayer.com/blogs/claude-code-setup-for-bug-hunters)**,
+installs these skills, and takes you from zero to hunting. Prefer to do it yourself? The manual steps
+are right below.
 
 ---
 

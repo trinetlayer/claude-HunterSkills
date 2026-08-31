@@ -37,7 +37,9 @@ jobs:
           exit $fail
 
       - name: Validate SVG assets are well-formed
-        run: xmllint --noout assets/*.svg && echo "all SVGs valid"
+        run: |
+          find assets -name '*.svg' -print0 | xargs -0 xmllint --noout
+          echo "all SVGs valid"
 
       - name: Sanity-check plugin manifests
         run: |
