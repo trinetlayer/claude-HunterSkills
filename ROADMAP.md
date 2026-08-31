@@ -4,7 +4,7 @@ Where the TrinetLayer bug-hunting skills are headed. Items tagged **`help wanted
 contributions — see [CONTRIBUTING.md](CONTRIBUTING.md). This is a living document; open an issue to
 propose or claim anything.
 
-## ✅ Shipped
+##  Shipped
 
 - 9 skills: orchestrator + web / API / source / Android / iOS / EVM / **Solana** / **Move**.
 - Shared rulebook: authorization gate, **Map → Prioritize → Probe → Prove → Report**, the 8-rung
@@ -27,7 +27,7 @@ propose or claim anything.
   Immunefi. `help wanted`
 - **Multi-harness** — an `AGENTS.md` so OpenCode / Codex / other harnesses can load the methodology.
 
-## 🧪 Exploring (needs design / discussion)
+##  Exploring (needs design / discussion)
 
 - **MCP integrations** — first-class Burp / Caido / HackerOne MCP wiring (via `.mcp.json`), so the skills
   can drive a proxy and pull program scope directly. Open an issue with the server you'd use. `help wanted`
