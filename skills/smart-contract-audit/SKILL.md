@@ -1,8 +1,10 @@
 ---
 name: smart-contract-audit
 description: >-
-  Guides authorized security auditing of Solidity/EVM smart contracts and DeFi protocols for bug
-  bounty and client-audit engagements. It covers orienting the protocol and its invariants, setting
+  Guides authorized security auditing of EVM/Solidity smart contracts and DeFi protocols for bug
+  bounty and client-audit engagements — scoped specifically to EVM chains and the Solidity/Vyper
+  language (for Solana/Anchor use solana-audit; for Move/Sui/Aptos use move-audit). It covers
+  orienting the protocol and its invariants, setting
   up Foundry/Slither/Echidna tooling, hunting the full class of on-chain bugs (reentrancy, access
   control, oracle manipulation, accounting/precision, ERC4626 share attacks, proxy/delegatecall,
   signature replay, MEV/front-running, DoS, token-integration and governance flaws), proving each
@@ -17,6 +19,9 @@ description: >-
 Practical methodology for auditing **authorized** EVM smart contracts: orient the protocol and its
 invariants, run static + symbolic + fuzz tooling, hunt the on-chain vulnerability classes, then prove
 each finding with a Foundry fork-test PoC and report it impact-first with funds at risk quantified.
+
+> Non-EVM chains: for **Solana (Anchor/Rust)** use the `solana-audit` skill, and for **Move (Sui/Aptos)**
+> use `move-audit`. This skill is EVM/Solidity-specific.
 
 > **Core rules — always in effect** (full rulebook: read `${CLAUDE_PLUGIN_ROOT}/skills/shared/RULES.md`
 > if that path resolves, otherwise the `shared/RULES.md` file installed alongside these skills).
@@ -260,7 +265,7 @@ gaming, oracle-lag arbitrage. Ask: what does a rational, well-capitalized advers
 
 **Prove it with a Foundry fork test.** A minimal test that runs the exploit against forked mainnet
 state and asserts attacker profit / invariant break is the strongest possible evidence and self-
-verifying. Sketch:
+verifying. Ready PoC + invariant skeleton: [references/foundry-poc.md](references/foundry-poc.md). Sketch:
 ```solidity
 function testExploit() public {
     vm.createSelectFork(vm.envString("RPC_URL"), BLOCK);   // pin a block for determinism

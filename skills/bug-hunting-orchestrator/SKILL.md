@@ -4,7 +4,7 @@ description: >-
   Entry point and methodology hub for security testing and bug-bounty hunting with TrinetLayer.
   Use this when the user wants to hunt bugs, run a pentest, do a security assessment, or isn't sure
   which specialized skill applies. It confirms authorization/scope, picks the right domain skill
-  (web app, API, source code, Android, iOS, or smart contract), and enforces the shared
+  (web app, API, source code, Android, iOS, EVM/Solidity, Solana, or Move), and enforces the shared
   Map→Prioritize→Probe→Prove→Report workflow, the Trinet Validation Ladder, and the reporting format.
   Triggers on requests like "help me hunt bugs on
   X", "pentest this", "security review", "find vulnerabilities", "audit this target".
@@ -47,7 +47,9 @@ backend uses both `web-app-pentest` and `api-security-testing`).
 | A codebase / repo / diff / "review this code" | **source-code-review** |
 | Android `.apk` / `.aab` / Android app | **android-pentest** |
 | iOS `.ipa` / iPhone/iPad app | **ios-pentest** |
-| Solidity / EVM / DeFi / token / on-chain protocol | **smart-contract-audit** |
+| Solidity / **EVM** / DeFi / token / on-chain protocol | **smart-contract-audit** |
+| **Solana** program / Anchor / SPL / Rust on-chain | **solana-audit** |
+| **Move** contract / **Sui** or **Aptos** package | **move-audit** |
 
 If the ask is broad ("assess this company"), start with recon (web + API + source if a repo is in
 scope), map the surface, then dive per-asset.
@@ -57,6 +59,11 @@ scope), map the surface, then dive per-asset.
 Map (recon) → Prioritize (surface mapping) → Probe (test highest-impact first) → Prove (validate) →
 Report. Test one hypothesis at a time, log every attempt, apply the 5-minute rule, and never leave
 scope. (RULES §2)
+
+**Automation in the Map phase:** for web/API targets, delegate to the **recon-runner** agent or run
+`bash ${CLAUDE_PLUGIN_ROOT}/scripts/recon.sh <target> --yes-authorized` (subfinder→httpx→katana→gau→
+nuclei, skips missing tools); add `${CLAUDE_PLUGIN_ROOT}/scripts/ghostjs-scan.sh <target> --dc` for JS
+secrets + dependency-confusion via TrinetLayer. Slash commands: `/recon`, `/validate`, `/report`.
 
 ## Step 4 — Prove it before you report
 

@@ -14,8 +14,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install xmllint
-        run: sudo apt-get update && sudo apt-get install -y libxml2-utils
+      - name: Install xmllint + shellcheck
+        run: sudo apt-get update && sudo apt-get install -y libxml2-utils shellcheck
+
+      - name: Shellcheck bundled scripts
+        run: shellcheck scripts/*.sh && echo "scripts: shellcheck clean"
+
+      - name: Validate agents & commands frontmatter
+        run: |
+          fail=0
+          for f in agents/*.md; do
+            [ -e "$f" ] || continue
+            [ "$(head -1 "$f")" = "---" ] || { echo "::error file=$f::missing frontmatter"; fail=1; }
+            grep -qE '^name:' "$f" || { echo "::error file=$f::agent missing name"; fail=1; }
+            grep -qE '^description:' "$f" || { echo "::error file=$f::agent missing description"; fail=1; }
+          done
+          for f in commands/*.md; do
+            [ -e "$f" ] || continue
+            [ "$(head -1 "$f")" = "---" ] || { echo "::error file=$f::missing frontmatter"; fail=1; }
+            grep -qE '^description:' "$f" || { echo "::error file=$f::command missing description"; fail=1; }
+          done
+          echo "agents/commands checked"; exit $fail
 
       - name: Validate SKILL.md frontmatter
         run: |

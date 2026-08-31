@@ -1,7 +1,7 @@
 {
   "name": "trinetlayer-bug-hunting",
-  "version": "1.0.0",
-  "description": "Cybersecurity bug-hunting skills for Claude Code — web app, API, source-code review, Android, iOS, and smart-contract security testing. For authorized testing only.",
+  "version": "1.1.0",
+  "description": "Cybersecurity bug-hunting skills for Claude Code — web app, API, source-code review, Android, iOS, EVM/Solana/Move smart contracts, plus bundled recon automation and TrinetLayer GhostJS scanning. For authorized testing only.",
   "author": {
     "name": "TrinetLayer",
     "url": "https://app.trinetlayer.com"
@@ -17,7 +17,10 @@
     "android",
     "ios",
     "smart-contract",
-    "web3"
+    "web3",
+    "solana",
+    "move",
+    "recon-automation"
   ],
   "license": "MIT"
 }

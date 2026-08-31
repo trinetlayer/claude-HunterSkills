@@ -71,7 +71,7 @@
       <rect x="700" y="323" width="150" height="54" rx="12" fill="#131c30" stroke="#22D3EE" stroke-opacity="0.6"/>
       <circle cx="722" cy="350" r="5" fill="#22D3EE"/>
       <text x="738" y="346" font-size="14" fill="#E7ECF5">web3</text>
-      <text x="738" y="364" font-size="11" fill="#8B96A9">reentrancy</text>
+      <text x="738" y="364" font-size="11" fill="#8B96A9">evm·sol·move</text>
     </g>
   </g>
 

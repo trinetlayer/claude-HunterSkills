@@ -68,7 +68,7 @@
   <text x="298" y="164" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="52" font-weight="700" fill="#F5F7FA" letter-spacing="-1">Bug-Hunting Skills</text>
   <text x="300" y="216" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="52" font-weight="700" letter-spacing="-1" fill="url(#ic)">for Claude Code</text>
 
-  <text x="302" y="256" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="18" fill="#9AA6B8">Seven model-invoked skills for authorized, in-scope security testing.</text>
+  <text x="302" y="256" font-family="Inter,'Segoe UI',system-ui,sans-serif" font-size="18" fill="#9AA6B8">Nine model-invoked skills + recon automation for authorized security testing.</text>
 
   <!-- chips -->
   <g font-family="'JetBrains Mono',ui-monospace,monospace" font-size="13" fill="#C7D0E0">

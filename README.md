@@ -6,7 +6,7 @@
 
 [![Validate](https://github.com/trinetlayer/claude-HunterSkills/actions/workflows/validate.yml/badge.svg)](https://github.com/trinetlayer/claude-HunterSkills/actions/workflows/validate.yml)
 [![License](https://img.shields.io/badge/license-MIT-6366F1?style=flat-square)](LICENSE)
-[![Skills](https://img.shields.io/badge/skills-7-22D3EE?style=flat-square)](#the-seven-skills)
+[![Skills](https://img.shields.io/badge/skills-9-22D3EE?style=flat-square)](#the-nine-skills)
 [![For](https://img.shields.io/badge/for-Claude%20Code-818CF8?style=flat-square)](https://claude.com/claude-code)
 ![Coverage](https://img.shields.io/badge/coverage-6%20surfaces-0B1220?style=flat-square&labelColor=6366F1)
 [![Use](https://img.shields.io/badge/use-authorized%20only-EF4444?style=flat-square)](#authorized-use-only)
@@ -14,9 +14,9 @@
 
 ### Turn Claude into a disciplined bug-bounty & pentest co-pilot.
 
-Seven model-invoked [Claude Code](https://claude.com/claude-code) skills — web app, API, source-code
-review, Android, iOS, and smart contracts, tied together by an orchestrator that keeps every
-engagement **authorized, in-scope, and reportable**.
+Nine model-invoked [Claude Code](https://claude.com/claude-code) skills — web app, API, source-code
+review, Android, iOS, and **EVM · Solana · Move** smart contracts — plus bundled recon automation, tied
+together by an orchestrator that keeps every engagement **authorized, in-scope, and reportable**.
 
 <br>
 
@@ -24,7 +24,7 @@ engagement **authorized, in-scope, and reportable**.
 git clone https://github.com/trinetlayer/claude-HunterSkills.git && cd claude-HunterSkills && ./install.sh
 ```
 
-<sub>Built by <a href="https://app.trinetlayer.com"><b>TrinetLayer</b></a> — the Attack Surface Lab for bug bounty hunters · <a href="USAGE.md">Usage guide</a> · <a href="#install">Install</a> · <a href="#the-seven-skills">Skills</a></sub>
+<sub>Built by <a href="https://app.trinetlayer.com"><b>TrinetLayer</b></a> — the Attack Surface Lab for bug bounty hunters · <a href="USAGE.md">Usage guide</a> · <a href="#install">Install</a> · <a href="#the-nine-skills">Skills</a></sub>
 
 </div>
 
@@ -46,7 +46,7 @@ the right skill brings the discipline.
 
 ---
 
-## The seven skills
+## The nine skills
 
 <div align="center">
 <img src="assets/surface-map.svg" alt="The orchestrator routes each request to the matching skill" width="92%">
@@ -60,11 +60,14 @@ the right skill brings the discipline.
 | <img src="assets/icons/source.svg" width="24" alt=""> | **source-code-review** | Auditing a repo, PR or diff | source→sink SAST · secrets · dependency confusion · CI/CD injection · crypto misuse |
 | <img src="assets/icons/android.svg" width="24" alt=""> | **android-pentest** | Testing an Android app / APK | MASVS · exported components · insecure storage · Flutter/RN traffic · pinning bypass |
 | <img src="assets/icons/ios.svg" width="24" alt=""> | **ios-pentest** | Testing an iOS app / IPA | Keychain · ATS · URL schemes · WebView bridges · TrollStore · pinning bypass |
-| <img src="assets/icons/contract.svg" width="24" alt=""> | **smart-contract-audit** | Auditing Solidity / DeFi | reentrancy · oracle manipulation · access control · L2/cross-chain · Foundry PoC |
+| <img src="assets/icons/contract.svg" width="24" alt=""> | **smart-contract-audit** | Auditing **EVM** Solidity / DeFi | reentrancy · oracle manipulation · access control · L2/cross-chain · Foundry PoC |
+| <img src="assets/icons/solana.svg" width="24" alt=""> | **solana-audit** | Auditing **Solana** / Anchor (Rust) | missing signer/owner · type-cosplay · arbitrary CPI · PDA bump · sysvar spoof · litesvm PoC |
+| <img src="assets/icons/move.svg" width="24" alt=""> | **move-audit** | Auditing **Move** — Sui / Aptos | capability & visibility · owned-vs-shared objects · hot-potato · witness confusion · Move Prover |
 
-Roughly **36 vulnerability classes** across Web2, mobile and Web3 — each with how-to-test steps,
-payload/command-level detail, and a never-submit list. All seven share one rulebook
-([`skills/shared/RULES.md`](skills/shared/RULES.md)).
+**50+ vulnerability classes** across Web2, mobile, and Web3 (EVM · Solana · Move) — each with
+how-to-test steps, payload/command-level detail, and a never-submit list. All nine share one rulebook
+([`skills/shared/RULES.md`](skills/shared/RULES.md)) — and load payload/PoC libraries from each skill's
+`references/` on demand.
 
 ---
 
@@ -96,6 +99,25 @@ matching skill loads its recon steps, checklists, payloads and reporting format 
 <div align="center">
 <img src="assets/terminal.svg" alt="A Claude Code session using web-app-pentest to confirm and validate a BOLA finding" width="94%">
 </div>
+
+---
+
+## Automation, not just advice
+
+These skills don't only *describe* the work — they can run it. Bundled, scope-gated scripts execute from
+the Map phase (pre-approved via `allowed-tools`, so no permission prompt), each skipping any tool you
+don't have and timing out rather than hanging.
+
+- **`scripts/recon.sh`** — `subfinder → httpx → katana → gau → nuclei` with per-tool timeouts, writing a
+  structured run dir. → `bash scripts/recon.sh <target> --yes-authorized`
+- **`scripts/ghostjs-scan.sh`** — a **real** TrinetLayer `/api/v1` GhostJS JS-secret + npm
+  dependency-confusion scan. → `TRINETLAYER_API_KEY=gjs_… bash scripts/ghostjs-scan.sh <target> --dc`
+- **`recon-runner`** subagent — runs recon and returns a *ranked attack surface*, keeping the noise out
+  of your main session.
+- **Slash commands** — `/recon <target>`, `/validate` (run a finding up the Trinet Validation Ladder),
+  `/report` (impact-first write-up).
+
+Everything recon surfaces is a **lead** — nothing is a finding until it climbs the Validation Ladder.
 
 ---
 

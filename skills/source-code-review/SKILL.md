@@ -9,6 +9,7 @@ description: >-
   and reports validated findings with file:line references, a concrete fix, and CWE mapping. This is
   a largely static/passive activity, so it also fits advisory mode when active testing isn't
   authorized.
+allowed-tools: Bash(${CLAUDE_PLUGIN_ROOT}/scripts/ghostjs-scan.sh *)
 ---
 
 # Security Source-Code Review (SAST / Secure Code Audit)
@@ -87,7 +88,11 @@ Run what's available; **skip missing tools gracefully** (RULES §5) and note the
 
 For a repo-specific sink, write a quick custom Semgrep rule (`semgrep --config ./myrule.yaml`) — a
 `pattern`/`pattern-sinks` rule for that project's own dangerous wrapper turns the SAST pass from
-breadth-only into targeted depth.
+breadth-only into targeted depth. See [references/semgrep-custom-rule.md](references/semgrep-custom-rule.md).
+
+For hosted JS secret-scanning + npm **dependency-confusion** on a live target, run
+`bash ${CLAUDE_PLUGIN_ROOT}/scripts/ghostjs-scan.sh <domain> --dc` (TrinetLayer `/api/v1`; needs
+`TRINETLAYER_API_KEY`, skips gracefully).
 
 Treat scanner output as **leads, not findings**. Every hit gets manually confirmed (§6).
 

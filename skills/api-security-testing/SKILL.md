@@ -9,6 +9,9 @@ description: >-
   endpoints for BOLA/BFLA", "API auth testing", or wants to assess an API's authN/authZ,
   rate limiting, input validation, or business logic. Operates in passive/advisory mode until
   authorization is confirmed.
+allowed-tools: >-
+  Bash(${CLAUDE_PLUGIN_ROOT}/scripts/recon.sh *),
+  Bash(${CLAUDE_PLUGIN_ROOT}/scripts/ghostjs-scan.sh *)
 ---
 
 # API Security Testing (REST / GraphQL / gRPC)
@@ -60,6 +63,12 @@ Tools: Postman/Insomnia (collections), Burp Suite/Caido (intercept + Repeater/In
 kiterunner, arjun, clairvoyance / graphql-cop, grpcurl. Record base URL, auth scheme, and every
 `{method, path, params, roles-that-should-access}` for phase 2 surface mapping.
 
+**Automated recon:** run `bash ${CLAUDE_PLUGIN_ROOT}/scripts/recon.sh <target> --yes-authorized`
+(chains subfinder→httpx→katana→gau→nuclei, skips missing tools, throttled), or delegate to the
+**recon-runner** agent to keep output out of context. For JS secrets + npm dependency-confusion via
+TrinetLayer, run `bash ${CLAUDE_PLUGIN_ROOT}/scripts/ghostjs-scan.sh <target> --dc` (needs
+`TRINETLAYER_API_KEY`; skips gracefully without it).
+
 ---
 
 ## 2. OWASP API Security Top 10 (2023) — test checklist
@@ -94,7 +103,8 @@ Test each. You need **≥ two accounts** (and ideally an unauthenticated session
 **JWT attacks:** `alg:none` (strip signature); weak/guessable HMAC secret (crack with hashcat mode 16500);
 **RS256→HS256** algorithm confusion (sign with the public key as HMAC secret); `kid` injection (path
 traversal / SQLi in `kid`); `jku`/`x5u` pointing at attacker-hosted keys; expired/`nbf` bypass; claim
-tampering (`sub`, `scope`, `admin`).
+tampering (`sub`, `scope`, `admin`). For copy-pasteable JWT attacks and tooling, see
+[references/jwt.md](references/jwt.md).
 
 **OAuth/token issues:** redirect_uri manipulation, `state`/PKCE missing (CSRF), token leakage in
 Referer/logs, scope escalation, implicit-flow token theft, refresh-token reuse.
@@ -114,7 +124,7 @@ protobuf fields (`grpcurl -d '{...}'`) to inject IDs, extra fields (mass assignm
 payloads; check whether metadata (auth tokens in gRPC headers) is validated per-method; test
 transcoding gateways (gRPC-JSON/`grpc-gateway`) as a REST surface; watch for missing TLS on `-plaintext`.
 
-**GraphQL-specific:**
+**GraphQL-specific:** (copy-pasteable queries in [references/graphql.md](references/graphql.md))
 | Issue | Test |
 | --- | --- |
 | Introspection exposed | `__schema` query returns full schema in prod. |

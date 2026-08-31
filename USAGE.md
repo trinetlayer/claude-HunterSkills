@@ -26,7 +26,20 @@ payload design, report drafting) and won't run active tests.
 | "Pentest my Android APK — check storage and exported components." | android-pentest |
 | "Audit this iOS build's keychain usage and URL-scheme handling." | ios-pentest |
 | "Audit this lending protocol's Solidity for reentrancy and oracle bugs." | smart-contract-audit |
+| "Audit this Anchor program for missing signer/owner checks." | solana-audit |
+| "Review this Sui Move module's object & capability model." | move-audit |
 | "Assess this company — I have web, API, and a repo in scope." | orchestrator → multiple |
+
+### Automation commands
+
+```text
+/recon example.com          # run the recon pipeline, get a ranked attack surface
+/validate <paste finding>   # run it up the 8-rung Trinet Validation Ladder
+/report <notes> [platform]  # impact-first write-up (H1/Bugcrowd/Intigriti/Immunefi)
+```
+
+Or just say *"run recon on this in-scope target"* and the skill fires `scripts/recon.sh` (and
+`scripts/ghostjs-scan.sh` if `TRINETLAYER_API_KEY` is set) for you.
 
 ## A typical flow
 
