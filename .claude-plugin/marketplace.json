@@ -6,13 +6,13 @@
   },
   "metadata": {
     "description": "TrinetLayer's official Claude Code plugins for bug-bounty hunters and security researchers.",
-    "version": "1.0.0"
+    "version": "2.0.0"
   },
   "plugins": [
     {
       "name": "trinetlayer-bug-hunting",
       "source": "./",
-      "description": "Bug-hunting skills: web app, API, source-code review, Android, iOS, and smart-contract security testing. Authorized testing only."
+      "description": "12 bug-hunting skills — web, API, source review, Android, iOS, EVM/Solana/Move contracts, cloud, and LLM red-team — plus a guarded autopilot, persistent hunt-memory, recon automation, and slash commands. Authorized testing only."
     }
   ]
 }

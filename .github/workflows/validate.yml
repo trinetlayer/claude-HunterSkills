@@ -17,8 +17,31 @@ jobs:
       - name: Install xmllint + shellcheck
         run: sudo apt-get update && sudo apt-get install -y libxml2-utils shellcheck
 
-      - name: Shellcheck bundled scripts
-        run: shellcheck scripts/*.sh && echo "scripts: shellcheck clean"
+      - name: Shellcheck bundled scripts + installer
+        run: shellcheck scripts/*.sh install.sh && echo "scripts: shellcheck clean"
+
+      - name: installer installs every skill (no drift)
+        run: |
+          set -e
+          bash install.sh --project "$RUNNER_TEMP/inst" >/dev/null
+          want=$(find skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+          got=$(find "$RUNNER_TEMP/inst/.claude/skills" -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+          echo "skills in repo: $want   installed by install.sh: $got"
+          [ "$want" = "$got" ] || { echo "::error::install.sh installed $got of $want skill folders — it is out of sync with skills/"; exit 1; }
+          echo "install.sh installs all $want skills"
+
+      - name: command/agent script references resolve
+        run: |
+          set -e
+          fail=0
+          for f in commands/*.md agents/*.md; do
+            [ -e "$f" ] || continue
+            for s in $(grep -oE '\$\{CLAUDE_PLUGIN_ROOT\}/scripts/[A-Za-z0-9._-]+\.sh' "$f" | sort -u); do
+              rel="${s#\$\{CLAUDE_PLUGIN_ROOT\}/}"
+              [ -f "$rel" ] || { echo "::error file=$f::references missing $rel"; fail=1; }
+            done
+          done
+          echo "command/agent script references checked"; exit $fail
 
       - name: Validate agents & commands frontmatter
         run: |

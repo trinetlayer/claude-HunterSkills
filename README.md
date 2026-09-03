@@ -11,6 +11,7 @@
 ![Coverage](https://img.shields.io/badge/coverage-11%20surfaces-0B1220?style=flat-square&labelColor=6366F1)
 [![Use](https://img.shields.io/badge/use-authorized%20only-EF4444?style=flat-square)](#authorized-use-only)
 ![Plugin](https://img.shields.io/badge/plugin-marketplace%20ready-34D399?style=flat-square)
+[![Live page](https://img.shields.io/badge/live-page-6366F1?style=flat-square)](https://trinetlayer.github.io/claude-HunterSkills/)
 
 ### Turn Claude into a disciplined bug-bounty & pentest co-pilot.
 
@@ -19,15 +20,46 @@ iOS, **EVM · Solana · Move** contracts, **cloud, and LLM red-team** — plus a
 persistent hunt-memory, and recon automation, tied together by an orchestrator that keeps every
 engagement **authorized, in-scope, and reportable**.
 
+![CRITICAL](https://img.shields.io/badge/CRITICAL-EF4444?style=flat-square)
+![HIGH](https://img.shields.io/badge/HIGH-F97316?style=flat-square)
+![MEDIUM](https://img.shields.io/badge/MEDIUM-EAB308?style=flat-square)
+![LOW](https://img.shields.io/badge/LOW-22D3EE?style=flat-square)
+![INFO](https://img.shields.io/badge/INFO-6366F1?style=flat-square)
+
 <br>
 
-```bash
-git clone https://github.com/trinetlayer/claude-HunterSkills.git && cd claude-HunterSkills && ./install.sh
+**Install inside Claude Code** — the plugin brings the skills, slash commands, and autopilot:
+
+```text
+/plugin marketplace add trinetlayer/claude-HunterSkills
+/plugin install trinetlayer-bug-hunting@trinetlayer
 ```
 
-<sub>Built by <a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer"><b>TrinetLayer</b></a> — the Attack Surface Lab for bug bounty hunters · <a href="USAGE.md">Usage guide</a> · <a href="#install">Install</a> · <a href="#the-twelve-skills">Skills</a></sub>
+<sub>Built by <a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer"><b>TrinetLayer</b></a> — the Attack Surface Lab for bug bounty hunters · <a href="https://trinetlayer.github.io/claude-HunterSkills/" target="_blank" rel="noopener noreferrer">Live page</a> · <a href="USAGE.md">Usage guide</a> · <a href="#install">Install</a> · <a href="#the-twelve-skills">Skills</a></sub>
 
 </div>
+
+---
+
+## Contents
+
+- [Why this exists](#why-this-exists)
+- [The twelve skills](#the-twelve-skills)
+- [Authorized use only](#authorized-use-only)
+- [How it works](#how-it-works)
+- [Automation, not just advice](#automation-not-just-advice)
+- [Integrations (optional)](#integrations-optional)
+- [Set up in one message](#set-up-in-one-message)
+- [Install](#install)
+- [Usage in 60 seconds](#usage-in-60-seconds)
+- [Project structure](#project-structure)
+- [Under the hood](#under-the-hood)
+- [How it compares](#how-it-compares)
+- [TrinetLayer accelerators](#trinetlayer-accelerators)
+- [Ecosystem](#ecosystem)
+- [Contributing](#contributing)
+- [Maintainer](#maintainer)
+- [License](#license)
 
 ---
 
@@ -109,6 +141,17 @@ matching skill loads its recon steps, checklists, payloads and reporting format 
 <img src="assets/terminal.svg" alt="A Claude Code session using web-app-pentest to confirm and validate a BOLA finding" width="94%">
 </div>
 
+A finding only counts once it clears the ladder. A typical validated result reads like this:
+
+```text
+[web-app-pentest] BOLA on GET /api/v1/orders/{id}
+  Ladder  ✔ real class  ✔ reachable  ✔ exploitable now  ✔ concrete impact
+          ✔ in scope    ✔ reproducible ✔ not a duplicate ✔ evidence captured
+  Impact  User A reads User B's order (PII: name, address, items) by ID swap
+  Repro   Two accounts; swap the numeric id in the request — 200 with other user's data
+  Report  Impact-first writeup ready for HackerOne  →  /report
+```
+
 ---
 
 ## Automation, not just advice
@@ -165,7 +208,7 @@ skills and walk me through the rest.
 ```
 
 Claude reads TrinetLayer's **<a href="https://trinetlayer.com/blogs/claude-code-setup-for-bug-hunters" target="_blank" rel="noopener noreferrer">Claude Code setup guide for bug hunters</a>**,
-installs these skills, and takes you from zero to hunting. Prefer to do it yourself? The manual steps
+installs the plugin, and takes you from zero to hunting. Prefer to do it yourself? The manual steps
 are right below.
 
 ---
@@ -177,39 +220,61 @@ Two minutes. Install once, restart Claude, then just describe your task — the 
 **Prereqs:** [Claude Code](https://claude.com/claude-code) + `git`. Recon tools and a TrinetLayer API key are optional — the skills work without them.
 
 <details open>
-<summary><b>A · Installer script</b> — global, recommended</summary>
+<summary><b>A · Plugin marketplace</b> — installs everything (recommended)</summary>
+
+Brings the **skills + slash commands + autopilot/recon-runner subagents + bundled scripts** and wires
+up `${CLAUDE_PLUGIN_ROOT}` so `/recon`, `/autopilot`, and the rest work out of the box. Run inside
+Claude Code:
+
+**1.** Add the marketplace:
+
+```text
+/plugin marketplace add trinetlayer/claude-HunterSkills
+```
+
+**2.** Install the plugin:
+
+```text
+/plugin install trinetlayer-bug-hunting@trinetlayer
+```
+
+**3.** Restart Claude Code (skills load at startup).
+
+**4. Verify** — start a fresh session and say *"help me test this in-scope web app for IDOR"*: Claude
+should load **web-app-pentest** and ask for scope. Type `/` to confirm the commands are listed.
+</details>
+
+<details>
+<summary><b>B · Installer script</b> — skills only, no plugin runtime</summary>
+
+Copies the **12 skills** into `~/.claude/skills`. Good if you only want the skills and not the slash
+commands/subagents (those need method A). Auto-discovers every skill folder, so it never misses one.
 
 ```bash
 git clone https://github.com/trinetlayer/claude-HunterSkills.git
 cd claude-HunterSkills
 ./install.sh          # into ~/.claude/skills  (use --link to auto-update on git pull)
 ```
+
+**Verify:** start a fresh session and say *"help me test this in-scope web app for IDOR"* — Claude
+should load **web-app-pentest** and ask for scope. Remove with `./install.sh --uninstall`.
 </details>
 
 <details>
-<summary><b>B · Plugin marketplace</b> — run inside Claude Code</summary>
-
-```
-/plugin marketplace add trinetlayer/claude-HunterSkills
-/plugin install trinetlayer-bug-hunting@trinetlayer
-```
-</details>
-
-<details>
-<summary><b>C · Project-scoped</b> — one engagement only</summary>
+<summary><b>C · Project-scoped</b> — one engagement only (skills only)</summary>
 
 ```bash
 ./install.sh --project /path/to/engagement   # into <project>/.claude/skills
 ```
 </details>
 
-**Verify:** start a fresh session and say *"help me test this in-scope web app for IDOR"* — Claude should load **web-app-pentest** and ask for scope. Type `/` to see the commands. Remove with `./install.sh --uninstall`.
-
 <details>
 <summary><b>Troubleshooting</b></summary>
 
 - **Skill won't load?** Restart Claude Code (skills load at startup); describe the *task*, not the skill name.
-- **`/recon` skips a tool?** Install it above — nothing is mandatory.
+- **No `/recon`, `/autopilot`, … commands?** Those ship with the **plugin** (method A). The installer
+  script (B/C) installs skills only — switch to method A for the commands and subagents.
+- **`/recon` skips a tool?** Install it — nothing is mandatory; each script skips tools you don't have.
 - **Don't do both** the script *and* the plugin — that double-installs the skills.
 </details>
 
@@ -234,6 +299,32 @@ Lead with your scope — the orchestrator will ask for it if you don't.
 | "Assess this company — web, API and a repo are in scope" | orchestrator → several |
 
 Full walkthrough, tips, and the two-account trick for access-control bugs → **[USAGE.md](USAGE.md)**.
+
+---
+
+## Project structure
+
+```text
+claude-HunterSkills/
+├── skills/                  12 model-invoked skills + the shared rulebook
+│   ├── bug-hunting-orchestrator/   routing + scope check (start here)
+│   ├── web-app-pentest/  api-security-testing/  source-code-review/
+│   ├── android-pentest/  ios-pentest/
+│   ├── smart-contract-audit/  solana-audit/  move-audit/
+│   ├── cloud-pentest/  llm-redteam/  credential-recon/
+│   └── shared/RULES.md             one rulebook every skill obeys
+├── commands/               slash commands (/recon, /autopilot, /report, …)
+├── agents/                 subagents (autopilot, recon-runner)
+├── scripts/                bundled scope-gated scripts (recon, ghostjs, memory)
+├── mcp/                    optional MCP wiring (Burp/Caido/HackerOne/PD)
+├── assets/                 README + landing-page art (SVG icons, diagrams)
+├── .claude-plugin/         plugin + marketplace manifests
+├── index.html              the live landing page (GitHub Pages)
+└── install.sh              skills-only installer (plugin is recommended)
+```
+
+> Slash commands and subagents resolve paths via `${CLAUDE_PLUGIN_ROOT}`, which the **plugin install**
+> sets — another reason method A is the recommended path.
 
 ---
 
@@ -305,6 +396,16 @@ framing and `RULES.md` intact. CI checks run on every PR.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the details, [ROADMAP.md](ROADMAP.md) for what's wanted, and
 [SECURITY.md](SECURITY.md) for the ground rules.
+
+## Maintainer
+
+Built and maintained by **<a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer">TrinetLayer</a>** — the Attack Surface Lab for
+bug bounty hunters.
+
+- **Website** — <a href="https://app.trinetlayer.com" target="_blank" rel="noopener noreferrer">app.trinetlayer.com</a>
+- **Live page** — <a href="https://trinetlayer.github.io/claude-HunterSkills/" target="_blank" rel="noopener noreferrer">trinetlayer.github.io/claude-HunterSkills</a>
+- **Community** — <a href="https://trinetlayer.discourse.group" target="_blank" rel="noopener noreferrer">Discourse</a>
+- **Report a repo issue** — [SECURITY.md](SECURITY.md) (private advisory) · [open an issue](https://github.com/trinetlayer/claude-HunterSkills/issues)
 
 ## License
 
