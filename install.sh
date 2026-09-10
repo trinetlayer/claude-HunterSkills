@@ -1,6 +1,13 @@
 #!/usr/bin/env bash
-# TrinetLayer Bug-Hunting Skills — installer
-# Copies (or symlinks) the skills into your Claude Code skills directory.
+# TrinetLayer Bug-Hunting Skills — installer (skills only)
+# Copies (or symlinks) every skill under ./skills into your Claude Code skills directory.
+#
+# NOTE: this script installs the SKILLS only. The slash commands (/recon, /autopilot, …)
+# and the autopilot / recon-runner subagents ship with the PLUGIN install, which also sets
+# the ${CLAUDE_PLUGIN_ROOT} the bundled scripts need. For the full experience run, inside
+# Claude Code:
+#     /plugin marketplace add trinetlayer/claude-HunterSkills
+#     /plugin install trinetlayer-bug-hunting@trinetlayer
 #
 # Usage:
 #   ./install.sh                 # copy skills to ~/.claude/skills (personal, global)
@@ -21,17 +28,26 @@ while [[ $# -gt 0 ]]; do
     --link) MODE="link"; shift ;;
     --project) DEST="${2%/}/.claude/skills"; shift 2 ;;
     --uninstall) UNINSTALL=1; shift ;;
-    -h|--help) sed -n '2,12p' "$0"; exit 0 ;;
+    -h|--help) sed -n '2,20p' "$0"; exit 0 ;;
     *) echo "Unknown option: $1" >&2; exit 1 ;;
   esac
 done
 
-SKILLS=(bug-hunting-orchestrator web-app-pentest api-security-testing \
-        source-code-review android-pentest ios-pentest smart-contract-audit shared)
+# Auto-discover every skill folder under skills/ so this never goes stale as skills are added.
+SKILLS=()
+for src in "$SRC"/*/; do
+  [[ -d "$src" ]] || continue
+  SKILLS+=("$(basename "$src")")
+done
+
+if [[ ${#SKILLS[@]} -eq 0 ]]; then
+  echo "✖ No skills found in $SRC — run this from the repo root." >&2
+  exit 1
+fi
 
 if [[ "$UNINSTALL" == "1" ]]; then
   for s in "${SKILLS[@]}"; do rm -rf "${DEST:?}/$s"; done
-  echo "✔ Removed TrinetLayer skills from $DEST"
+  echo "✔ Removed ${#SKILLS[@]} TrinetLayer skill folders from $DEST"
   exit 0
 fi
 
@@ -46,9 +62,12 @@ for s in "${SKILLS[@]}"; do
 done
 
 echo "✔ Installed ${#SKILLS[@]} skill folders into $DEST ($MODE)"
-echo "  Skills: web-app-pentest, api-security-testing, source-code-review,"
-echo "          android-pentest, ios-pentest, smart-contract-audit + orchestrator"
+printf '  %s\n' "${SKILLS[@]}"
 echo
 echo "Restart Claude Code (or start a new session), then just ask —"
 echo '  e.g. "help me hunt bugs on this authorized target" — and the'
 echo "  bug-hunting-orchestrator will route to the right skill."
+echo
+echo "Want the slash commands (/recon, /autopilot, …) and subagents too? Install as a plugin:"
+echo "  /plugin marketplace add trinetlayer/claude-HunterSkills"
+echo "  /plugin install trinetlayer-bug-hunting@trinetlayer"
